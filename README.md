@@ -4,9 +4,9 @@
 
 # Con
 
-**PlayStation cloud gaming and Remote Play, as a native app.**
+**PlayStation cloud gaming, as a native app.**
 
-Stream the PS Plus cloud catalogue of PS5, PS4 and PS3 games, or play your own console over the local network,<br>
+Stream the PS Plus cloud catalogue of PS5, PS4 and PS3 games<br>
 on a Mac, a Windows PC or an Android phone, with a DualSense or a keyboard and mouse.
 
 [![Latest release](https://img.shields.io/github/v/release/houqai/Con-app?label=latest&style=flat-square&color=2f6fd6)](https://github.com/houqai/Con-app/releases/latest)
@@ -32,14 +32,13 @@ on a Mac, a Windows PC or an Android phone, with a DualSense or a keyboard and m
 
 1. **Install the app** for your system, see [Download](#download).
 2. **Sign in with your PlayStation account.** Con opens Sony's own sign-in page; your password goes to Sony, not to me.
-3. **Pick a game and press Play.** Cloud games start on a Sony server near you. To play your own PS5 or PS4 instead, open **Consoles**, choose the console found on your network and enter the code it shows under **Settings → System → Remote Play → Link Device**.
+3. **Pick a game and press Play.** The game starts on a Sony server near you.
 
-Cloud streaming needs a **PlayStation Plus Premium** subscription and a game you own or that is in the catalogue of your plan. Remote Play to your own console works without it.
+Cloud streaming needs a **PlayStation Plus Premium** subscription and a game you own or that is in the catalogue of your plan.
 
 ## What it does
 
 - **The whole cloud catalogue.** PS5, PS4 and PS3 games of PS Plus, with your purchases, recently played games and favourites, search, and a page for every game with screenshots from the PlayStation Store.
-- **Remote Play to your own console.** PS5 and PS4 on the same network, found by themselves and linked once with the code from the console.
 - **Your controller, as on a console.** DualSense, DualShock 4 and other gamepads. On Windows, a DualSense on its cable plays the game's haptics on its actuators; adaptive triggers, light bar and rumble work too.
 - **Keyboard and mouse.** Every button can be put on a key; the mouse can steer the camera.
 - **Sharper picture.** An upscaler that enlarges the stream two, three or four times: FSR 1 and Anime4K everywhere, NIS on Windows, MetalFX on the Mac.
@@ -58,7 +57,7 @@ Cloud streaming needs a **PlayStation Plus Premium** subscription and a game you
 | **Windows** | [Archive](https://github.com/houqai/Con-app/releases/download/v0.5.0/Con-0.5.0-windows-x64.zip) | Windows 10 and 11, 64-bit |
 | **Android** | [APK](https://github.com/houqai/Con-app/releases/download/v0.5.0/Con-0.5.0-android.apk) | Android 9 or newer, 64-bit ARM |
 
-A Linux version exists, but it is not part of this release yet.
+A Linux version exists, but it is not part of this release yet: it still has to be tested on SteamOS.
 
 ### macOS
 
@@ -96,7 +95,10 @@ Con uses open-source components: SDL 2, FFmpeg (LGPL 2.1, shipped as separate li
 
 ## Support the project
 
-Con is free. If you would like to help, donations go to devices for testing: a PS5 and a Steam Deck.
+Con is free. If you would like to help, donations go to two devices I need for testing:
+
+- **A Steam Deck**, to test the Linux version on SteamOS and release it.
+- **A PS5**, for Remote Play to your own console. It is already built into Con, but turned off until I can test it on a real console.
 
 | Currency | Network | Address |
 |---|---|---|
