@@ -49,6 +49,10 @@ Cloud streaming needs a **PlayStation Plus Premium** subscription and a game you
 - **In your language.** English, Russian, German, French, Spanish, Italian, Portuguese, Polish, Japanese, Korean and Chinese.
 - **Gamepad-first interface.** The whole app can be used from the couch with a controller.
 
+## How it is made
+
+Con is written in Swift and Rust. The interface on every system, the PlayStation sign-in and cloud client, and the streaming engine are its own code: the engine (network transport, encryption, video, audio and controller feedback) is written from scratch in Rust. On Android, the screens are a small Java layer over the same Swift and Rust core. Apart from the operating system, Con depends on nothing but the components listed under [Third-party software](#third-party-software).
+
 ## Download
 
 | System | Files | Runs on |
@@ -91,7 +95,12 @@ SHA-256 of every file is in [SHA256SUMS.txt](https://github.com/houqai/Con-app/r
 
 ## Third-party software
 
-Con uses open-source components: SDL 2, FFmpeg (LGPL 2.1, shipped as separate libraries on Windows), GTK and its libraries on Windows, Opus, Inter, AMD FidelityFX Super Resolution 1, NVIDIA Image Scaling and Anime4K, among others. Their licences are in `THIRD-PARTY-NOTICES.md` and the `licenses` folder of each download. The exact upstream builds used on Windows are [SDL 2.32.10](https://github.com/libsdl-org/SDL/releases/tag/release-2.32.10), [FFmpeg 8.1.3](https://github.com/BtbN/FFmpeg-Builds/releases/tag/autobuild-2026-10-07-13-07) and [gvsbuild 2026.8.0](https://github.com/wingtk/gvsbuild/releases/tag/2026.8.0), with their sources there.
+Besides the operating system itself, Con uses only these open-source components. Exact versions and licence texts are in `THIRD-PARTY-NOTICES.md` and the `licenses` folder of each download.
+
+- **In every version:** Opus for audio, and Rust crates for cryptography and talking to the system (the RustCrypto crates for AES, GCM, SHA-2, HMAC, HKDF and secp256k1 with their helpers; rand, base64, socket2, thiserror, zerocopy, zeroize, libc and the small crates they build on), all linked into the engine. The upscaler shaders come from AMD FidelityFX Super Resolution 1 and Anime4K, plus NVIDIA Image Scaling on Windows.
+- **macOS:** nothing else.
+- **Windows:** [SDL 2.32.10](https://github.com/libsdl-org/SDL/releases/tag/release-2.32.10); [FFmpeg 8.1.3](https://github.com/BtbN/FFmpeg-Builds/releases/tag/autobuild-2026-10-07-13-07) (LGPL build, as separate libraries); Cairo and Pango with GLib, HarfBuzz, FreeType, Fontconfig, FriBidi, pixman, libpng, Expat, PCRE2, libffi, zlib, libintl and win-iconv from [gvsbuild 2026.8.0](https://github.com/wingtk/gvsbuild/releases/tag/2026.8.0); the Swift runtime and Foundation with ICU; Microsoft's WebView2 loader and Visual C++ runtime; the Inter font; Rust crates for Windows (windows-rs, webview2-com, sdl2-sys).
+- **Android:** the Swift runtime and Foundation with ICU, LLVM libc++, and Rust crates for Android (jni, ndk-sys and their helpers).
 
 ## Support the project
 
