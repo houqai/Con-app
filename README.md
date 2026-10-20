@@ -4,10 +4,10 @@
 
 # Con
 
-**PlayStation cloud gaming, as a native app.**
+**Unofficial PS Plus cloud gaming client for Mac, Windows and Android.**
 
-Stream the PS Plus cloud catalogue of PS5, PS4 and PS3 games<br>
-on a Mac, a Windows PC or an Android phone, with a DualSense or a keyboard and mouse.
+Stream PS5, PS4 and PS3 games from the PS Plus cloud catalogue, no console needed,<br>
+with a DualSense, another gamepad or a keyboard and mouse.
 
 [![Latest release](https://img.shields.io/github/v/release/houqai/Con-app?label=latest&style=flat-square&color=2f6fd6)](https://github.com/houqai/Con-app/releases/latest)
 ![macOS · Windows · Android](https://img.shields.io/badge/macOS%20·%20Windows%20·%20Android-4b5563?style=flat-square)
@@ -24,7 +24,7 @@ on a Mac, a Windows PC or an Android phone, with a DualSense or a keyboard and m
 
 <br><br>
 
-<img src="assets/library.png" width="860" alt="The game library of Con on a Mac">
+<img src="assets/library.png" width="860" alt="The game library of Con, a PS Plus cloud gaming app, on a Mac">
 
 </div>
 
@@ -88,6 +88,8 @@ SHA-256 of every file is in [SHA256SUMS.txt](https://github.com/houqai/Con-app/r
 ## Questions
 
 **Is this an official PlayStation app?** No. Con is an independent app and is not made, endorsed or supported by Sony Interactive Entertainment.
+
+**How is Con different from Chiaki or chiaki-ng?** Chiaki and chiaki-ng stream from your own PS4 or PS5 over Remote Play. Con streams from Sony's cloud servers, so you need no console, only PS Plus Premium.
 
 **Why does a game sometimes take a minute to start right after I closed another?** Sony keeps the previous cloud session for about a minute. Con ends its own previous session by itself and waits for one started on another device.
 
