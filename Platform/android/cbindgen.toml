@@ -1,0 +1,16 @@
+language = "C"
+documentation = false
+pragma_once = true
+sys_includes = ["stdint.h"]
+no_includes = true
+style = "type"
+
+[export]
+exclude = ["JNI_OnLoad", "Java_app_con_check_Shared_start", "Java_app_con_check_Shared_text",
+           "Java_app_con_check_Shared_state", "Java_app_con_check_Shared_loginClosed", "Java_app_con_check_Shared_storeCheck",
+           "Java_app_con_check_Shared_act", "Java_app_con_check_Shared_ask", "Java_app_con_check_Shared_pad",
+           "Java_app_con_check_Shared_touch", "Java_app_con_check_Shared_padGone", "Java_app_con_check_Shared_loginFinished",
+           "Java_app_con_check_Shared_surface",
+           "con_start", "con_text", "con_state", "con_login_finished", "con_login_closed", "con_store_check",
+           "con_act", "con_ask", "con_touch", "con_pad", "con_pad_gone", "con_free",
+           "_dispatch_get_main_queue_handle_4CF", "_dispatch_main_queue_callback_4CF"]

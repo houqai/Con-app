@@ -1,0 +1,4 @@
+module CConAndroid {
+    header "../../work/platform-rust/include/con_android.h"
+    export *
+}

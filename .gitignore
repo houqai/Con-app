@@ -1,0 +1,7 @@
+/work/
+/Con.app/
+.build/
+.swiftpm/
+.DS_Store
+*.xcuserstate
+/Engine/target/

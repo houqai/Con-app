@@ -1,0 +1,4 @@
+module CConEngine {
+    header "../../work/engine-rust/include/con_engine.h"
+    export *
+}

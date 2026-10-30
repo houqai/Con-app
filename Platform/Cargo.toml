@@ -1,0 +1,45 @@
+[package]
+name = "con-platform"
+version = "0.1.0"
+edition = "2021"
+description = "Platform layer for Con: network interface enumeration, the Wine heap, Objective-C exception handling and a silent UDP port for tests."
+publish = false
+
+[workspace]
+members = [".", "desktop", "login", "android", "android-check"]
+default-members = ["."]
+resolver = "2"
+
+[lib]
+name = "con_platform"
+crate-type = ["staticlib", "rlib"]
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[target.'cfg(windows)'.dependencies.windows-sys]
+version = "0.61"
+features = [
+    "Win32_Foundation",
+    "Win32_NetworkManagement_IpHelper",
+    "Win32_NetworkManagement_Ndis",
+    "Win32_Networking_WinSock",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Memory",
+    "Win32_System_ProcessStatus",
+    "Win32_System_SystemInformation",
+    "Win32_System_SystemServices",
+    "Win32_System_Threading",
+    "Win32_System_WindowsProgramming",
+]
+
+[target.'cfg(target_vendor = "apple")'.dependencies]
+objc2 = { version = "0.6", features = ["exception"] }
+
+[target.'cfg(target_vendor = "apple")'.dev-dependencies]
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSException", "NSString", "NSObject", "NSDictionary", "NSObjCRuntime"] }
+
+[profile.release]
+lto = true
+codegen-units = 1

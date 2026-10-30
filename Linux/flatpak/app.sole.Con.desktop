@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Con
+Comment=Cloud games and Remote Play for PlayStation
+Comment[ru]=Облачные игры и Remote Play для PlayStation
+Exec=con
+Icon=app.sole.Con
+Terminal=false
+Categories=Game;
+Keywords=PlayStation;PS5;Cloud;Remote Play;

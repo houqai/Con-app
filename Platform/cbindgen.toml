@@ -1,0 +1,10 @@
+language = "C"
+documentation = false
+pragma_once = true
+sys_includes = ["stdbool.h", "stddef.h", "stdint.h"]
+no_includes = true
+usize_is_size_t = true
+style = "type"
+
+[export]
+exclude = ["con_wine_heap_start"]

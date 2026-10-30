@@ -1,0 +1,4 @@
+module CConPlatform {
+    header "../../work/platform-rust/include/con_platform.h"
+    export *
+}

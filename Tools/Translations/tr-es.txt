@@ -1,0 +1,453 @@
+0|No se pudo cargar el catálogo de PS Plus PC. Prueba a actualizar el catálogo.
+1|Sony no confirmó el acceso gratuito a este juego por suscripción. No se ha realizado ninguna compra.
+2|Sony no pudo activar la licencia de streaming de PS Plus PC. Vuelve a iniciar el juego.
+3|PS Plus PC: Sony devolvió HTTP %@.
+4|Versión %@
+5|Licencias
+6|Juegos en la nube y conexión con tu PlayStation.
+7|Conectando con PS Cloud…
+8|Confirmando tu cuenta en la nube…
+9|Confirmando el acceso a la transmisión del juego…
+10|Comprobando la licencia del juego…
+11|Creando la sesión de juego…
+12|Preparando la sesión de juego…
+13|Obteniendo la lista de servidores…
+14|Midiendo la latencia con los servidores…
+15|Seleccionando el servidor %@…
+16|Solicitando un servidor de juego…
+17|Sony está preparando el servidor tras la última sesión…
+18|posición %@
+19|en espera
+20|, unos %@ min
+21|Cola de Sony: %@%@…
+22|Sony está trasladando tus partidas guardadas al servidor
+23|Licencias de juegos
+24|Comprobación de la licencia del juego
+25|Transmisión del juego
+26|Cuenta de PS Cloud
+27|Conexión con PS Cloud
+28|Inicia sesión en PlayStation para registrar consolas e iniciar Remote Play.
+29|En la red local
+30|Buscando consolas PlayStation en la red. Comprueba que tu PS5 o PS4 está encendida, en la misma red y con Remote Play activado en sus ajustes.
+31|Guardadas
+32|Remote Play se conecta directamente a tu consola en la red local. Es independiente del streaming en la nube.
+33|Capturas de pantalla
+34|Captura de pantalla %@
+35|Jugar
+36|Eliminar registro
+37|Conectar
+38|Sin conexión
+39|Eliminar
+40|Lista
+41|Modo reposo
+42|Desconocido
+43|Registrar %@
+44|En la consola, abre Ajustes → Sistema → Uso a distancia → Vincular dispositivo e introduce el código de 8 dígitos que aparece.
+45|Código de 8 dígitos
+46|Cancelar
+47|Registrar
+48|Desconectar
+49|fps
+50|fps · +%@ generados
+51|fps · transmisión %@
+52|fps · generación innecesaria
+53|Continuar
+54|Datos de la transmisión
+55|Jugando desde hace %@ min
+56|Seleccionar
+57|retardo
+58|Mínimo
+59|Red débil
+60|Escribir
+61|Borrar
+62|Listo
+63|Retardo ≈ %@ ms: red %@ + Mac %@
+64|Generación de fotogramas
+65|Un fotograma entre dos fotogramas del juego cuando la pantalla puede mostrarlo. Añade retardo
+66|Resolución de generación
+67|El tamaño con el que se calcula el fotograma generado. Más alto es más nítido pero más lento: para Mac potentes
+68|720p · más rápido
+69|Tu versión de este juego está en la pestaña %@.
+70|Hay un juego con este nombre en la pestaña %@.
+71|fps · generación no disponible
+72|Mbps
+73|ms
+74|ping
+75|ping al inicio
+76|decodificador
+77|El ratón controla la cámara · ⌘ devuelve el puntero
+78|Conectando…
+79|Código de inicio de sesión de la consola
+80|La consola ha pedido el código de inicio de sesión de la cuenta. Introdúcelo para continuar.
+81|Código
+82|Confirmar
+83|Ocultar datos de la transmisión
+84|Mostrar datos de la transmisión
+85|Desactivar generación de fotogramas
+86|Activar generación de fotogramas
+87|La generación de fotogramas no está disponible en este Mac
+88|La generación de fotogramas no está disponible en este ordenador
+89|Escalador
+90|FSR 1 y NIS: bordes nítidos casi sin retraso; Anime4K: una red neuronal que añade detalles
+91|FSR 1: bordes nítidos casi sin retraso; Anime4K: una red neuronal que añade detalles; MetalFX: el método de Apple, más lento
+92|Cuánto ampliar la transmisión. Más es más nítido, pero más lento
+93|Ampliación
+94|Método de escalado
+95|Amplía la imagen al tamaño de la ventana manteniendo la nitidez cuando la transmisión es más pequeña que la pantalla. Carga un poco la tarjeta gráfica
+96|Salir de pantalla completa
+97|Pantalla completa
+98|Stick izquierdo
+99|Stick derecho
+100|Mando
+101|Pulsa un botón o mueve un stick
+102|Ningún mando conectado
+103|Conecta un DualSense, un DualShock u otro mando compatible a tu Mac por USB o Bluetooth. Con lo detectará automáticamente. Sin mando puedes jugar con el teclado.
+104|El mando admite respuesta háptica
+105|La respuesta háptica no está disponible
+106|La prueba de entrada funciona en local. Durante una transmisión, el juego se controla con el primer mando conectado y con el teclado, juntos o por separado.
+107|Aceptar
+108|Juegos en la nube
+109|Mis consolas
+110|Buscar juegos
+111|Actualizar biblioteca
+112|Ajustes
+113|Iniciar sesión
+114|Conectado
+115|Mostrar más
+116|Cargando el catálogo de Sony…
+117|No se han encontrado juegos
+118|Inicia sesión en PlayStation para ver tus juegos comprados.
+119|Cargando tus juegos…
+120|Ninguno de los juegos del catálogo en la nube está entre tus compras.
+121|Catálogo en la nube
+122|%@ juegos
+123|Acción
+124|Aventura
+125|Deportes
+126|En favoritos
+127|Añadir a favoritos
+128|PS Store
+129|Catálogo
+130|Tu PlayStation. Aquí mismo.
+131|Conéctate a tu consola y sigue donde lo dejaste.
+132|Selección
+133|Abrir
+134|Favoritos
+135|Atrás
+136|Cerrar
+137|Comprobando el acceso al juego…
+138|Activado
+139|Desactivado
+140|Quitar de favoritos
+141|Cerrar juego
+142|Detenida
+143|Solicitud de sesión: error desconocido
+144|Solicitud de sesión: la consola rechazó la conexión
+145|Solicitud de sesión: Remote Play ya está en uso
+146|Solicitud de sesión: Remote Play falló en la consola
+147|Solicitud de sesión: las versiones no coinciden
+148|Canal de control: error desconocido
+149|Canal de control: no se pudo conectar
+150|Canal de control: la consola rechazó la conexión
+151|Transmisión: error desconocido
+152|Transmisión: el servidor se desconectó
+153|Transmisión: el servidor se apagó
+154|El registro en PSN falló
+155|La consola está registrada, pero no se pudo guardar el registro: después de reiniciar Con habrá que registrarla de nuevo.
+156|No se pudo eliminar el registro: la consola volverá a aparecer después de reiniciar Con.
+157|Trofeo obtenido
+158|Notificaciones de trofeos
+159|Mostrar los trofeos obtenidos sobre el juego
+160|Reiniciar juego
+161|El servidor envió el juego sin sonido
+162|Rol
+163|Carreras
+164|Lucha
+165|Puzles
+166|Terror
+167|Simulación
+168|Estrategia
+169|Espacio
+170|Mayús izquierda
+171|Mayús derecha
+172|Control izquierda
+173|Control derecha
+174|Opción izquierda
+175|Opción derecha
+176|Alt izquierda
+177|Alt derecha
+178|tecla %@
+179|Avanzar
+180|Izquierda
+181|Derecha
+182|Caminar
+183|Cámara arriba
+184|Cámara a la izquierda
+185|Cámara abajo
+186|Cámara a la derecha
+187|Cruceta ↑
+188|Cruceta ←
+189|Cruceta ↓
+190|Cruceta →
+191|Panel táctil
+192|Movimiento
+193|Cámara
+194|Botones
+195|Botones superiores y gatillos
+196|Cruceta
+197|Sistema
+198|Teclado
+199|Funciona durante una transmisión, con mando o sin él. Haz clic en una tecla de la lista y pulsa la nueva.
+200|Restablecer
+201|pulsa una tecla
+202|Ratón
+203|Haz clic en la imagen durante una transmisión: el puntero desaparece y el ratón gira la cámara. La tecla ⌘ devuelve el puntero.
+204|Haz clic en la imagen durante una transmisión: el puntero desaparece y el ratón gira la cámara. La tecla %@ devuelve el puntero.
+205|Cámara con el ratón
+206|Sensibilidad
+207|Botones del ratón
+208|Izquierdo es R2, derecho es L2
+209|Izquierdo es R1, derecho es L1
+210|Cerrar inicio de sesión
+211|Conectar PlayStation
+212|Un solo inicio de sesión para la biblioteca y la nube.
+213|Inicia sesión en el sitio web de Sony.\nSony ofrece los métodos de inicio de sesión, incluido el código QR.
+214|Esperando el inicio de sesión…
+215|Iniciar sesión en el sitio web de Sony
+216|Cancelar inicio de sesión
+217|Tu contraseña solo se introduce en el sitio web de Sony.
+218|, %@ ms
+219| (%@ ms comunicados a Sony)
+220|Servidor: %@%@.
+221|Inicio de sesión en PS Cloud confirmado. Elige un juego para preparar una transmisión.
+222|%@: Sony devolvió %@.
+223|Sony rechazó la conexión con la nube (%@).
+224|Sony rechazó la configuración de PS Cloud (%@). La conexión con la nube necesita más trabajo.
+225|La nube necesita que se renueve tu inicio de sesión guardado. Abre la sección «Cuenta de PSN» y elige «Renovar inicio de sesión».
+226|Las comprobaciones de red de Sony no terminaron a tiempo. Esto no significa que UDP esté bloqueado. Intenta conectarte de nuevo.
+227|Los servidores de Sony no respondieron a la comprobación de red UDP, así que no se eligió ningún servidor. Comprueba que una VPN o un cortafuegos no bloquea el UDP saliente.
+228|El servidor elegido no respondió a la comprobación de red UDP. Elige «Automático» en los ajustes de transmisión o inténtalo más tarde.
+229|Sony aún no ha ofrecido servidores para este juego. Prueba con otro juego o inténtalo más tarde.
+230|Sony devolvió un identificador de centro de datos desconocido.
+231|Sony devolvió una dirección de centro de datos no compatible.
+232|Sony devolvió un puerto de centro de datos no válido.
+233|Sony devolvió centros de datos duplicados.
+234|El formato de la lista de centros de datos de Sony necesita más trabajo.
+235|Sony exige una suscripción a PlayStation Plus Premium para este juego.
+236|Sony sigue preparando el servidor tras la última sesión (código 002.2008). Inténtalo de nuevo en un minuto.
+237|%@: Sony rechazó la latencia con el servidor (HTTP %@, código 002.0019) aunque no se comunicaron más de %@ ms.
+238|%@: Sony no aceptó la clave de sesión (HTTP %@, código 002.2005). Prepara de nuevo la transmisión.
+239|%@: HTTP %@, código de Sony %@.
+240|%@: HTTP %@, evento de Sony %@.
+241|La cuenta todavía tiene una sesión en la nube, en este u otro dispositivo. Con esperó a que terminara alrededor de un minuto y medio. Vuelve a iniciar cuando haya terminado.
+242|La sesión anterior aún no se ha cerrado. Nuevo intento en %@ s (intento %@ de %@)
+243|%@: la pasarela de red de Sony rechazó la solicitud (HTTP 403).
+244|Sony no confirmó una licencia en la nube para este juego.
+245|Sony no confirmó el acceso a la versión en streaming de este juego.
+246|%@: Sony devolvió HTTP %@.
+247|Sony no confirmó el inicio de sesión en la nube. Conéctate de nuevo.
+248|Inicio de sesión en la nube cancelado.
+249|La respuesta del servicio en la nube de Sony no es la esperada. La conexión no se completó.
+250|Sony no asignó un servidor a tiempo
+251| (posición %@ en la cola)
+252|. Inténtalo más tarde.
+253|Con no ha encontrado ninguna licencia de PS5 válida que corresponda a este juego. Eso no demuestra que el juego falte en tu biblioteca: la edición o los datos de la licencia pueden diferir del catálogo.
+254|Comprobación de la licencia del juego: Sony devolvió HTTP %@.
+255|Sony devolvió las licencias de juegos en un formato desconocido.
+256|La respuesta de Sony sobre el servidor asignado no es la esperada. El formato necesita más trabajo.
+257|No se pudo conectar con PS Cloud. Inténtalo de nuevo.
+258|No se pudo contactar con PlayStation. Inténtalo de nuevo.
+259|No se pudo restaurar tu inicio de sesión. Comprueba la conexión e inténtalo de nuevo.
+260|No se pudieron cargar los juegos recientes. Prueba a actualizar la biblioteca.
+261|No se pudo cargar el catálogo de Sony. Comprueba la conexión y prueba a actualizarlo.
+262|Transmisión finalizada.
+263|Transmisión interrumpida: %@
+264|Nube
+265|Consolas
+266|Todos los juegos
+267|Comprados
+268|Recientes
+269|General
+270|Transmisión
+271|Controles
+272|Acerca de Con
+273|Inicio de sesión cancelado.
+274|No se pudo abrir la página de inicio de sesión. Inténtalo de nuevo.
+275|La página de inicio de sesión no respondió. Cierra la ventana del navegador e inténtalo de nuevo.
+276|PlayStation no confirmó el inicio de sesión. Intenta iniciar sesión de nuevo.
+277|Sony no devolvió la confirmación de la solicitud de inicio de sesión. El inicio de sesión no se guardó.
+278|La respuesta de Sony pertenece a otra solicitud de inicio de sesión. Inténtalo de nuevo.
+279|Sony no devolvió un código de autorización. Inténtalo de nuevo.
+280|Sony te pide que inicies sesión de nuevo. Repite el inicio de sesión en la página de PlayStation.
+281|Sony rechazó la solicitud de inicio de sesión (%@).
+282|Sony devolvió una dirección de confirmación no válida. El inicio de sesión no se guardó.
+283|Sony no devolvió el ID de la cuenta. El inicio de sesión no se guardó.
+284|%@: Sony devolvió el error %@
+285|No se pudo acceder al llavero de macOS.
+286|No se pudo usar el llavero del sistema.
+287|Intercambio de código y token
+288|Obtención del ID de la cuenta
+289|Carga del perfil
+290|Carga de juegos
+291|Introduce el código de registro de 8 dígitos de la consola.
+292|Registrando %@…
+293|%@ está registrada. Ya puedes conectarte.
+294|La consola no está registrada.
+295|Conectando con %@…
+296|Conectando la transmisión de vídeo de %@…
+297|Transmitiendo %@.
+298|La consola pide un código de inicio de sesión.
+299|Sesión finalizada: %@
+300|Los datos de registro no son válidos. Registra la consola de nuevo.
+301|Operación cancelada.
+302|Error del motor.
+303|El motor no aceptó los ajustes de conexión.
+304|El motor aún no está listo. Inténtalo de nuevo.
+305|Error de red. Comprueba tu conexión de red.
+306|El motor no admite esta operación.
+307|No se pudieron enviar los datos.
+308|La operación de Remote Play ha fallado.
+309|Cerrar ajustes
+310|Región del catálogo
+311|Lista de juegos de Sony · no es la elección del centro de datos
+312|Estados Unidos
+313|Reino Unido
+314|Alemania
+315|Francia
+316|Japón
+317|España
+318|Italia
+319|Polonia
+320|Tamaño de la imagen
+321|Cómo llena el vídeo la ventana
+322|Ajustar
+323|Rellenar
+324|Tu cuenta de PlayStation
+325|Restaurando el inicio de sesión guardado…
+326|Inicia sesión para abrir tu biblioteca de juegos.
+327|Cuenta conectada
+328|Renovar inicio de sesión
+329|Restaurando el inicio de sesión…
+330|Conectar cuenta
+331|Cerrar sesión
+332|Inicias sesión en la página de PlayStation. Con nunca pide tu contraseña en formularios propios.
+333|Calidad de vídeo
+334|Económica
+335|Equilibrada
+336|Nítida
+337|Máxima
+338|Tasa de bits
+339|Más alta significa más detalle y más datos consumidos
+340|%@ Mbps
+341|Presentación fluida
+342|Cuánto espera un fotograma para un ritmo uniforme. Menos: antes en pantalla, pero menos uniforme en una red inestable
+343|Desactivado
+344|Según los refrescos de la pantalla
+345|+%@ ms
+346|+%@ ms · lo más fluido
+347|Centro de datos
+348|La lista aparece después de preparar una transmisión por primera vez
+349|El servidor para los juegos en la nube · la elección se conserva
+350|Automático
+351| · %@ ms
+352|Inicia sesión en PlayStation para conectar la nube.
+353|Sony envía la lista de servidores cuando se prepara una transmisión. Tras el primer intento se guarda aquí.
+354|Elige el servidor para el próximo juego. La latencia es la de la última comprobación.
+355|Conectar de nuevo
+356|Idioma del juego
+357|Si el juego lo admite
+358|Ruso
+359|Vibración
+360|Respuesta en los juegos que la admiten
+361|Tus juegos. Tu Mac.
+362|Ajustes…
+363|Inicio de sesión de PlayStation · Con
+364|Clientes de PS5 Cloud
+365|Clientes de PS Cloud
+366|Configuración de la nube
+367|Creación de la sesión en la nube
+368|Autorización en la nube
+369|Preparación de la sesión de juego
+370|Lista de centros de datos
+371|Selección del centro de datos
+372|Asignación del servidor de juego
+373|Tokio, Japón
+374|Osaka, Japón
+375|Seúl, Corea del Sur
+376|Hong Kong
+377|Singapur
+378|Sídney, Australia
+379|Melbourne, Australia
+380|Estocolmo, Suecia
+381|Fráncfort, Alemania
+382|Milán, Italia
+383|Londres, Reino Unido
+384|París, Francia
+385|Madrid, España
+386|Ámsterdam, Países Bajos
+387|Dublín, Irlanda
+388|Varsovia, Polonia
+389|Viena, Austria
+390|Zúrich, Suiza
+391|Bruselas, Bélgica
+392|Copenhague, Dinamarca
+393|Oslo, Noruega
+394|Helsinki, Finlandia
+395|Lisboa, Portugal
+396|Nueva York, EE. UU.
+397|Washington, EE. UU.
+398|Chicago, EE. UU.
+399|Dallas, EE. UU.
+400|Atlanta, EE. UU.
+401|Miami, EE. UU.
+402|Seattle, EE. UU.
+403|San Francisco, EE. UU.
+404|San José, EE. UU.
+405|Los Ángeles, EE. UU.
+406|Denver, EE. UU.
+407|Toronto, Canadá
+408|Montreal, Canadá
+409|Ciudad de México, México
+410|São Paulo, Brasil
+411|Error de registro
+412|Idioma de la app
+413|El idioma de la interfaz de Con
+414|Latencia ≈ %@ ms: red %@ + teléfono %@
+415|Latencia ≈ %@ ms: red %@ + ordenador %@
+416|Cómo el vídeo llena la pantalla
+417|Conecta un DualSense, DualShock u otro mando compatible al teléfono por USB o Bluetooth. Con lo detectará automáticamente.
+418|Durante una transmisión, el mando conectado controla el juego.
+419|Tus juegos. Tu teléfono.
+420|Menú
+421|Mando en pantalla
+422|Botones sobre la transmisión mientras no haya un mando conectado
+423|La transmisión sigue. Toca para volver.
+424|Conecta un DualSense, DualShock u otro mando compatible por USB o Bluetooth. Con lo detectará automáticamente. Sin mando puedes jugar con el teclado.
+425|Tus juegos. Tu ordenador.
+426|La ventana de inicio de sesión no se abrió: Ubuntu no le da un entorno aislado para la página de Sony. Ejecuta una vez en una terminal: %@
+427|La ventana de inicio de sesión no se abrió: este equipo no tiene Microsoft Edge WebView2. Instálalo desde el sitio web de Microsoft e inténtalo de nuevo.
+428|Terminando la otra sesión…
+429|Terminando la otra sesión… (%@ s)
+430|Cuenta de PSN
+431|Trofeos
+432|Juegos recientes
+433|Nivel %@
+434|%@ % hasta el nivel %@
+435|Platino
+436|Oro
+437|Plata
+438|Bronce
+439|%@ de %@
+440|Cargando trofeos…
+441|Sony no muestra los trofeos con este inicio de sesión.
+442|No se pudieron cargar los trofeos.
+443|Aún no hay trofeos.
+444|Cargando juegos recientes…
+445|Aún no hay juegos recientes.
+446|Hoy
+447|Ayer
+448|hace %@ días
+449|Servidores lejanos
+450|Indica a Sony una latencia menor para que acepte un servidor a más de 80 ms. Esto incumple las reglas de Sony: bajo tu propio riesgo
+451|El servidor está a %@ ms y Sony acepta hasta %@ ms. Para jugar de todos modos, activa «Servidores lejanos» en los ajustes de la transmisión.
+452|%@: HTTP %@, código de Sony %@: %@.

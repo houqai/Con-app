@@ -1,0 +1,4 @@
+module CConAndroidCheck {
+    header "../../work/platform-rust/include/con_android_check.h"
+    export *
+}

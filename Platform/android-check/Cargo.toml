@@ -1,0 +1,14 @@
+[package]
+name = "con-android-check"
+version = "0.1.0"
+edition = "2021"
+description = "System access for the Android check app (Tools/AndroidCheck): an offscreen surface and a test stream from the device's hardware encoder."
+publish = false
+
+[lib]
+name = "con_android_check"
+crate-type = ["staticlib", "rlib"]
+
+[target.'cfg(target_os = "android")'.dependencies]
+libc = "0.2"
+ndk-sys = { version = "0.6", features = ["media"] }

@@ -1,0 +1,67 @@
+id: app.sole.Con
+runtime: org.gnome.Platform
+runtime-version: '48'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.swift6
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: con
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=all
+  - --talk-name=org.freedesktop.secrets
+build-options:
+  append-path: /usr/lib/sdk/swift6/bin:/usr/lib/sdk/rust-stable/bin
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /lib/cmake
+  - /share/doc
+  - '*.a'
+modules:
+  - name: ffmpeg
+    config-opts:
+      - --disable-everything
+      - --disable-programs
+      - --disable-doc
+      - --disable-static
+      - --enable-shared
+      - --enable-avcodec
+      - --enable-swscale
+      - --enable-zlib
+      - --enable-decoder=hevc,h264,mjpeg,png,webp
+    post-install:
+      - install -Dm644 LICENSE.md COPYING.LGPLv2.1 -t /app/share/licenses/ffmpeg/
+    sources:
+      - type: archive
+        url: https://ffmpeg.org/releases/ffmpeg-7.1.1.tar.xz
+        sha256: 733984395e0dbbe5c046abda2dc49a5544e7e0e1e2366bba849222ae9e3a03b1
+
+  - name: con
+    buildsystem: simple
+    build-options:
+      build-args: [--share=network]
+      env:
+        PKG_CONFIG_PATH: /app/lib/pkgconfig:/app/share/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
+        CARGO_HOME: /run/build/con/cargo
+        CON_ENGINE_PREFIX_OPUS: '0'
+    build-commands:
+      - Engine/build.sh $(uname -m)-unknown-linux-gnu
+      - Platform/build.sh $(uname -m)-unknown-linux-gnu
+      - ./Scripts/build-linux.sh
+      - install -Dm755 work/linux/$(uname -m)/con/con /app/bin/con
+      - install -Dm755 work/linux/$(uname -m)/con/con-login /app/bin/con-login
+      - install -Dm644 Resources/Con.png /app/share/con/Con.png
+      - install -Dm644 THIRD-PARTY-NOTICES.md /app/share/con/THIRD-PARTY-NOTICES.md
+      - install -Dm644 Linux/flatpak/app.sole.Con.desktop /app/share/applications/app.sole.Con.desktop
+      - install -Dm644 Linux/flatpak/app.sole.Con.metainfo.xml /app/share/metainfo/app.sole.Con.metainfo.xml
+      - install -Dm644 Linux/flatpak/icon-256.png /app/share/icons/hicolor/256x256/apps/app.sole.Con.png
+      - mkdir -p /app/lib && cp -a /usr/lib/sdk/swift6/lib/swift/linux/*.so /app/lib/
+    sources:
+      - type: dir
+        path: ../..
+        skip: [work, Con.app, .build]

@@ -1,0 +1,4 @@
+module CConDesktop {
+    header "../../work/platform-rust/include/con_desktop.h"
+    export *
+}

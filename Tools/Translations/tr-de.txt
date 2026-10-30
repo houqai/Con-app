@@ -1,0 +1,453 @@
+0|Der PS Plus PC-Katalog konnte nicht geladen werden. Versuche, den Katalog zu aktualisieren.
+1|Sony hat den kostenlosen Abo-Zugang zu diesem Spiel nicht bestätigt. Es wurde nichts gekauft.
+2|Sony konnte die Streaming-Lizenz von PS Plus PC nicht aktivieren. Starte das Spiel erneut.
+3|PS Plus PC: Sony meldet HTTP %@.
+4|Version %@
+5|Lizenzen
+6|Cloud-Spiele und Verbindung zu deiner PlayStation.
+7|Verbindung zu PS Cloud…
+8|Konto wird in der Cloud bestätigt…
+9|Zugang zum Spielstream wird bestätigt…
+10|Spiellizenz wird geprüft…
+11|Spielsitzung wird erstellt…
+12|Spielsitzung wird vorbereitet…
+13|Serverliste wird abgerufen…
+14|Latenz zu den Servern wird gemessen…
+15|Server %@ wird ausgewählt…
+16|Spielserver wird angefordert…
+17|Sony bereitet den Server nach der letzten Sitzung vor…
+18|Position %@
+19|Warten
+20|, etwa %@ Min.
+21|Sony-Warteschlange: %@%@…
+22|Sony überträgt deine Spielstände auf den Server
+23|Spiellizenzen
+24|Prüfung der Spiellizenz
+25|Spielstream
+26|PS Cloud-Konto
+27|PS Cloud-Verbindung
+28|Melde dich bei PlayStation an, um Konsolen zu registrieren und Remote Play zu starten.
+29|Im lokalen Netzwerk
+30|PlayStation-Konsolen werden im Netzwerk gesucht. Stelle sicher, dass deine PS5 oder PS4 eingeschaltet ist, sich im selben Netzwerk befindet und Remote Play in den Einstellungen aktiviert ist.
+31|Gespeichert
+32|Remote Play verbindet sich direkt mit deiner Konsole im lokalen Netzwerk. Es ist vom Cloud-Streaming getrennt.
+33|Screenshots
+34|Screenshot %@
+35|Spielen
+36|Registrierung entfernen
+37|Verbinden
+38|Offline
+39|Entfernen
+40|Bereit
+41|Ruhemodus
+42|Unbekannt
+43|%@ registrieren
+44|Öffne auf der Konsole Einstellungen → System → Remote Play → Gerät verknüpfen und gib den angezeigten 8-stelligen Code ein.
+45|8-stelliger Code
+46|Abbrechen
+47|Registrieren
+48|Trennen
+49|fps
+50|fps · +%@ generiert
+51|fps · Stream %@
+52|fps · Generierung nicht nötig
+53|Fortsetzen
+54|Streamdaten
+55|Spielzeit: %@ Min.
+56|Auswählen
+57|Verzögerung
+58|Minimum
+59|Schwaches Netzwerk
+60|Eingeben
+61|Löschen
+62|Fertig
+63|Verzögerung ≈ %@ ms: Netzwerk %@ + Mac %@
+64|Bildgenerierung
+65|Ein Bild zwischen zwei Bildern des Spiels, wenn der Bildschirm es anzeigen kann. Erhöht die Verzögerung
+66|Auflösung der Generierung
+67|Die Größe, in der das generierte Bild berechnet wird. Höher ist schärfer, aber langsamer: für leistungsstarke Macs
+68|720p · schneller
+69|Deine Version dieses Spiels befindet sich im Tab %@.
+70|Ein Spiel mit diesem Namen befindet sich im Tab %@.
+71|fps · Generierung nicht verfügbar
+72|Mbit/s
+73|ms
+74|Ping
+75|Ping beim Start
+76|Decoder
+77|Die Maus steuert die Kamera · ⌘ bringt den Zeiger zurück
+78|Verbinden…
+79|Anmeldecode der Konsole
+80|Die Konsole hat nach dem Anmeldecode des Kontos gefragt. Gib ihn ein, um fortzufahren.
+81|Code
+82|Bestätigen
+83|Streamdaten ausblenden
+84|Streamdaten einblenden
+85|Bildgenerierung ausschalten
+86|Bildgenerierung einschalten
+87|Bildgenerierung ist auf diesem Mac nicht verfügbar
+88|Bildgenerierung ist auf diesem Computer nicht verfügbar
+89|Upscaler
+90|FSR 1 und NIS – scharfe Kanten fast ohne Verzögerung; Anime4K – ein neuronales Netz, das Details ergänzt
+91|FSR 1 – scharfe Kanten fast ohne Verzögerung; Anime4K – ein neuronales Netz, das Details ergänzt; MetalFX – Apples Verfahren, langsamer
+92|Um wie viel der Stream vergrößert wird. Mehr ist schärfer, aber langsamer
+93|Vergrößerung
+94|Upscaling-Verfahren
+95|Vergrößert das Bild scharf auf die Fenstergröße, wenn der Stream kleiner als der Bildschirm ist. Belastet die Grafikkarte etwas
+96|Vollbild beenden
+97|Vollbild
+98|Linker Stick
+99|Rechter Stick
+100|Controller
+101|Drücke eine Taste oder bewege einen Stick
+102|Kein Controller verbunden
+103|Verbinde einen DualSense, DualShock oder einen anderen kompatiblen Controller per USB oder Bluetooth mit deinem Mac. Con erkennt ihn automatisch. Ohne Controller kannst du mit der Tastatur spielen.
+104|Der Controller unterstützt haptisches Feedback
+105|Haptisches Feedback ist nicht verfügbar
+106|Die Eingabeprüfung läuft lokal. Während eines Streams wird das Spiel vom ersten verbundenen Controller und von der Tastatur gesteuert, zusammen oder einzeln.
+107|OK
+108|Cloud-Spiele
+109|Meine Konsolen
+110|Spiele suchen
+111|Bibliothek aktualisieren
+112|Einstellungen
+113|Anmelden
+114|Verbunden
+115|Mehr anzeigen
+116|Sony-Katalog wird geladen…
+117|Keine Spiele gefunden
+118|Melde dich bei PlayStation an, um deine gekauften Spiele zu sehen.
+119|Deine Spiele werden geladen…
+120|Unter den Spielen des Cloud-Katalogs sind keine deiner Käufe.
+121|Cloud-Katalog
+122|%@ Spiele
+123|Action
+124|Abenteuer
+125|Sport
+126|In Favoriten
+127|Zu Favoriten hinzufügen
+128|PS Store
+129|Katalog
+130|Deine PlayStation. Genau hier.
+131|Verbinde dich mit deiner Konsole und spiele dort weiter, wo du aufgehört hast.
+132|Auswahl
+133|Öffnen
+134|Favoriten
+135|Zurück
+136|Schließen
+137|Zugang zum Spiel wird geprüft…
+138|Ein
+139|Aus
+140|Aus Favoriten entfernen
+141|Spiel beenden
+142|Beendet
+143|Sitzungsanfrage: unbekannter Fehler
+144|Sitzungsanfrage: Die Konsole hat die Verbindung abgelehnt
+145|Sitzungsanfrage: Remote Play wird bereits verwendet
+146|Sitzungsanfrage: Remote Play ist auf der Konsole abgestürzt
+147|Sitzungsanfrage: Versionen stimmen nicht überein
+148|Steuerkanal: unbekannter Fehler
+149|Steuerkanal: Verbindung fehlgeschlagen
+150|Steuerkanal: Die Konsole hat die Verbindung abgelehnt
+151|Übertragung: unbekannter Fehler
+152|Übertragung: Der Server hat die Verbindung getrennt
+153|Übertragung: Der Server wurde heruntergefahren
+154|PSN-Registrierung fehlgeschlagen
+155|Die Konsole ist registriert, aber die Registrierung konnte nicht gespeichert werden: Nach einem Neustart von Con muss sie erneut registriert werden.
+156|Die Registrierung konnte nicht entfernt werden: Nach einem Neustart von Con erscheint die Konsole wieder.
+157|Trophäe erhalten
+158|Trophäen-Benachrichtigungen
+159|Erhaltene Trophäen über dem Spiel anzeigen
+160|Spiel neu starten
+161|Der Server hat das Spiel ohne Ton gesendet
+162|Rollenspiele
+163|Rennspiele
+164|Kampfspiele
+165|Puzzle
+166|Horror
+167|Simulation
+168|Strategie
+169|Leertaste
+170|Umschalt links
+171|Umschalt rechts
+172|Control links
+173|Control rechts
+174|Option links
+175|Option rechts
+176|Alt links
+177|Alt rechts
+178|Taste %@
+179|Vorwärts
+180|Links
+181|Rechts
+182|Gehen
+183|Kamera nach oben
+184|Kamera nach links
+185|Kamera nach unten
+186|Kamera nach rechts
+187|Steuerkreuz ↑
+188|Steuerkreuz ←
+189|Steuerkreuz ↓
+190|Steuerkreuz →
+191|Touchpad
+192|Bewegung
+193|Kamera
+194|Tasten
+195|Schultertasten und Trigger
+196|Steuerkreuz
+197|System
+198|Tastatur
+199|Funktioniert während eines Streams, mit oder ohne Controller. Klicke auf eine Taste in der Liste und drücke dann die neue.
+200|Zurücksetzen
+201|Taste drücken
+202|Maus
+203|Klicke während eines Streams auf das Bild: Der Zeiger verschwindet und die Maus dreht die Kamera. Die Taste ⌘ bringt den Zeiger zurück.
+204|Klicke während eines Streams auf das Bild: Der Zeiger verschwindet und die Maus dreht die Kamera. Die Taste %@ bringt den Zeiger zurück.
+205|Kamera mit der Maus
+206|Empfindlichkeit
+207|Maustasten
+208|Links ist R2, rechts ist L2
+209|Links ist R1, rechts ist L1
+210|Anmeldung schließen
+211|PlayStation verbinden
+212|Eine Anmeldung für Bibliothek und Cloud.
+213|Melde dich auf der Website von Sony an.\nSony bietet die Anmeldemethoden an, auch per QR-Code.
+214|Warten auf Anmeldung…
+215|Auf der Website von Sony anmelden
+216|Anmeldung abbrechen
+217|Dein Passwort wird nur auf der Website von Sony eingegeben.
+218|, %@ ms
+219| (%@ ms an Sony gemeldet)
+220|Server: %@%@.
+221|PS Cloud-Anmeldung bestätigt. Wähle ein Spiel, um einen Stream vorzubereiten.
+222|%@: Sony meldet %@.
+223|Sony hat die Cloud-Verbindung abgelehnt (%@).
+224|Sony hat die PS Cloud-Konfiguration abgelehnt (%@). Die Cloud-Verbindung muss noch überarbeitet werden.
+225|Für die Cloud muss deine gespeicherte Anmeldung erneuert werden. Öffne den Bereich „PSN-Konto“ und wähle „Anmeldung erneuern“.
+226|Die Netzwerkprüfungen von Sony wurden nicht rechtzeitig abgeschlossen. Das bedeutet nicht, dass UDP blockiert ist. Versuche, die Verbindung erneut herzustellen.
+227|Die Server von Sony haben auf die UDP-Netzwerkprüfung nicht geantwortet, daher wurde kein Server ausgewählt. Prüfe, ob ein VPN oder eine Firewall ausgehendes UDP blockiert.
+228|Der gewählte Server hat auf die UDP-Netzwerkprüfung nicht geantwortet. Wähle in den Stream-Einstellungen „Automatisch“ oder versuche es später erneut.
+229|Sony hat für dieses Spiel noch keine Server angeboten. Versuche ein anderes Spiel oder versuche es später erneut.
+230|Sony hat eine unbekannte Rechenzentrumskennung zurückgegeben.
+231|Sony hat eine nicht unterstützte Rechenzentrumsadresse zurückgegeben.
+232|Sony hat einen ungültigen Rechenzentrumsport zurückgegeben.
+233|Sony hat doppelte Rechenzentren zurückgegeben.
+234|Das Format der Rechenzentrumsliste von Sony muss noch überarbeitet werden.
+235|Sony verlangt für dieses Spiel ein PlayStation Plus Premium-Abo.
+236|Sony bereitet den Server nach der letzten Sitzung noch vor (Code 002.2008). Versuche es in einer Minute erneut.
+237|%@: Sony hat die Latenz zum Server abgelehnt (HTTP %@, Code 002.0019), obwohl nicht mehr als %@ ms gemeldet wurden.
+238|%@: Sony hat den Sitzungsschlüssel nicht akzeptiert (HTTP %@, Code 002.2005). Bereite den Stream erneut vor.
+239|%@: HTTP %@, Sony-Code %@.
+240|%@: HTTP %@, Sony-Ereignis %@.
+241|Das Konto hat noch eine Cloud-Sitzung – auf diesem oder einem anderen Gerät. Con hat etwa anderthalb Minuten auf ihr Ende gewartet. Starte erneut, wenn sie vorbei ist.
+242|Die vorherige Sitzung ist noch nicht geschlossen. Neuer Versuch in %@ s (Versuch %@ von %@)
+243|%@: Das Netzwerk-Gateway von Sony hat die Anfrage abgelehnt (HTTP 403).
+244|Sony hat keine Cloud-Lizenz für dieses Spiel bestätigt.
+245|Sony hat den Zugang zur Streaming-Version dieses Spiels nicht bestätigt.
+246|%@: Sony meldet HTTP %@.
+247|Sony hat die Cloud-Anmeldung nicht bestätigt. Verbinde dich erneut.
+248|Cloud-Anmeldung abgebrochen.
+249|Die Antwort des Cloud-Dienstes von Sony ist anders als erwartet. Die Verbindung wurde nicht abgeschlossen.
+250|Sony hat nicht rechtzeitig einen Server zugewiesen
+251| (Warteschlangenposition %@)
+252|. Versuche es später erneut.
+253|Con hat keine gültige PS5-Lizenz gefunden, die zu diesem Spiel passt. Das beweist nicht, dass das Spiel in deiner Bibliothek fehlt: Die Edition oder die Lizenzdaten können vom Katalog abweichen.
+254|Prüfung der Spiellizenz: Sony meldet HTTP %@.
+255|Sony hat Spiellizenzen in einem unbekannten Format zurückgegeben.
+256|Die Antwort von Sony zum zugewiesenen Server ist anders als erwartet. Das Format muss noch überarbeitet werden.
+257|Verbindung zu PS Cloud fehlgeschlagen. Versuche es erneut.
+258|PlayStation ist nicht erreichbar. Versuche es erneut.
+259|Deine Anmeldung konnte nicht wiederhergestellt werden. Prüfe die Verbindung und versuche es erneut.
+260|Die zuletzt gespielten Spiele konnten nicht geladen werden. Versuche, die Bibliothek zu aktualisieren.
+261|Der Sony-Katalog konnte nicht geladen werden. Prüfe die Verbindung und versuche, ihn zu aktualisieren.
+262|Stream beendet.
+263|Stream unterbrochen: %@
+264|Cloud
+265|Konsolen
+266|Alle Spiele
+267|Gekauft
+268|Zuletzt gespielt
+269|Allgemein
+270|Stream
+271|Steuerung
+272|Über Con
+273|Anmeldung abgebrochen.
+274|Die Anmeldeseite konnte nicht geöffnet werden. Versuche es erneut.
+275|Die Anmeldeseite hat nicht geantwortet. Schließe das Browserfenster und versuche es erneut.
+276|PlayStation hat die Anmeldung nicht bestätigt. Versuche, dich erneut anzumelden.
+277|Sony hat keine Bestätigung der Anmeldeanfrage zurückgegeben. Die Anmeldung wurde nicht gespeichert.
+278|Die Antwort von Sony gehört zu einer anderen Anmeldeanfrage. Versuche es erneut.
+279|Sony hat keinen Autorisierungscode zurückgegeben. Versuche es erneut.
+280|Sony bittet dich, dich erneut anzumelden. Wiederhole die Anmeldung auf der PlayStation-Seite.
+281|Sony hat die Anmeldeanfrage abgelehnt (%@).
+282|Sony hat eine ungeeignete Bestätigungsadresse zurückgegeben. Die Anmeldung wurde nicht gespeichert.
+283|Sony hat die Konto-ID nicht zurückgegeben. Die Anmeldung wurde nicht gespeichert.
+284|%@: Sony meldet Fehler %@
+285|Kein Zugriff auf den macOS-Schlüsselbund.
+286|Der Schlüsselbund des Systems konnte nicht verwendet werden.
+287|Austausch von Code und Token
+288|Konto-ID wird abgerufen
+289|Profil wird geladen
+290|Spiele werden geladen
+291|Gib den 8-stelligen Registrierungscode von der Konsole ein.
+292|%@ wird registriert…
+293|%@ ist registriert. Du kannst dich jetzt verbinden.
+294|Die Konsole ist nicht registriert.
+295|Verbindung zu %@…
+296|Videostream von %@ wird verbunden…
+297|Stream von %@ läuft.
+298|Die Konsole fragt nach einem Anmeldecode.
+299|Sitzung beendet: %@
+300|Die Registrierungsdaten sind ungültig. Registriere die Konsole erneut.
+301|Vorgang abgebrochen.
+302|Fehler der Engine.
+303|Die Engine hat die Verbindungseinstellungen nicht angenommen.
+304|Die Engine ist noch nicht bereit. Versuche es erneut.
+305|Netzwerkfehler. Prüfe deine Netzwerkverbindung.
+306|Die Engine unterstützt diesen Vorgang nicht.
+307|Daten konnten nicht gesendet werden.
+308|Der Remote Play-Vorgang ist fehlgeschlagen.
+309|Einstellungen schließen
+310|Katalogregion
+311|Spieleliste von Sony · nicht die Wahl des Rechenzentrums
+312|USA
+313|Vereinigtes Königreich
+314|Deutschland
+315|Frankreich
+316|Japan
+317|Spanien
+318|Italien
+319|Polen
+320|Bildgröße
+321|Wie das Video das Fenster füllt
+322|Einpassen
+323|Füllen
+324|Dein PlayStation-Konto
+325|Gespeicherte Anmeldung wird wiederhergestellt…
+326|Melde dich an, um deine Spielebibliothek zu öffnen.
+327|Konto verbunden
+328|Anmeldung erneuern
+329|Anmeldung wird wiederhergestellt…
+330|Konto verbinden
+331|Abmelden
+332|Du meldest dich auf der PlayStation-Seite an. Con fragt dein Passwort nie in eigenen Formularen ab.
+333|Videoqualität
+334|Sparsam
+335|Ausgewogen
+336|Scharf
+337|Maximum
+338|Bitrate
+339|Höher bedeutet mehr Details und mehr Datenverbrauch
+340|%@ Mbit/s
+341|Gleichmäßige Darstellung
+342|Wie lange ein Bild auf einen gleichmäßigen Rhythmus wartet. Weniger: früher auf dem Bildschirm, aber ungleichmäßiger bei instabilem Netz
+343|Aus
+344|Nach Bildschirmaktualisierungen
+345|+%@ ms
+346|+%@ ms · am gleichmäßigsten
+347|Rechenzentrum
+348|Die Liste erscheint, nachdem zum ersten Mal ein Stream vorbereitet wurde
+349|Der Server für Cloud-Spiele · die Wahl wird gespeichert
+350|Automatisch
+351| · %@ ms
+352|Melde dich bei PlayStation an, um die Cloud zu verbinden.
+353|Sony sendet die Serverliste, wenn ein Stream vorbereitet wird. Nach dem ersten Versuch wird sie hier gespeichert.
+354|Wähle den Server für das nächste Spiel. Die Latenz stammt von der letzten Prüfung.
+355|Erneut verbinden
+356|Spielsprache
+357|Wenn das Spiel sie unterstützt
+358|Russisch
+359|Vibration
+360|Feedback in Spielen, die es unterstützen
+361|Deine Spiele. Dein Mac.
+362|Einstellungen…
+363|PlayStation-Anmeldung · Con
+364|PS5 Cloud-Clients
+365|PS Cloud-Clients
+366|Cloud-Konfiguration
+367|Erstellen der Cloud-Sitzung
+368|Cloud-Autorisierung
+369|Vorbereiten der Spielsitzung
+370|Rechenzentrumsliste
+371|Auswahl des Rechenzentrums
+372|Zuweisung des Spielservers
+373|Tokio, Japan
+374|Osaka, Japan
+375|Seoul, Südkorea
+376|Hongkong
+377|Singapur
+378|Sydney, Australien
+379|Melbourne, Australien
+380|Stockholm, Schweden
+381|Frankfurt, Deutschland
+382|Mailand, Italien
+383|London, Vereinigtes Königreich
+384|Paris, Frankreich
+385|Madrid, Spanien
+386|Amsterdam, Niederlande
+387|Dublin, Irland
+388|Warschau, Polen
+389|Wien, Österreich
+390|Zürich, Schweiz
+391|Brüssel, Belgien
+392|Kopenhagen, Dänemark
+393|Oslo, Norwegen
+394|Helsinki, Finnland
+395|Lissabon, Portugal
+396|New York, USA
+397|Washington, USA
+398|Chicago, USA
+399|Dallas, USA
+400|Atlanta, USA
+401|Miami, USA
+402|Seattle, USA
+403|San Francisco, USA
+404|San José, USA
+405|Los Angeles, USA
+406|Denver, USA
+407|Toronto, Kanada
+408|Montreal, Kanada
+409|Mexiko-Stadt, Mexiko
+410|São Paulo, Brasilien
+411|Registrierung fehlgeschlagen
+412|App-Sprache
+413|Die Sprache der Oberfläche von Con
+414|Latenz ≈ %@ ms: Netzwerk %@ + Telefon %@
+415|Latenz ≈ %@ ms: Netzwerk %@ + Computer %@
+416|Wie das Video den Bildschirm füllt
+417|Verbinde einen DualSense, DualShock oder einen anderen kompatiblen Controller per USB oder Bluetooth mit dem Telefon. Con erkennt ihn automatisch.
+418|Während eines Streams steuert der verbundene Controller das Spiel.
+419|Deine Spiele. Dein Telefon.
+420|Menü
+421|Bildschirm-Controller
+422|Tasten über dem Stream, solange kein Controller verbunden ist
+423|Der Stream läuft. Tippe, um zurückzukehren.
+424|Verbinde einen DualSense, DualShock oder einen anderen kompatiblen Controller per USB oder Bluetooth. Con erkennt ihn automatisch. Ohne Controller kannst du mit der Tastatur spielen.
+425|Deine Spiele. Dein Computer.
+426|Das Anmeldefenster hat sich nicht geöffnet: Ubuntu gibt ihm keine Sandbox für die Seite von Sony. Führe einmal im Terminal aus: %@
+427|Das Anmeldefenster hat sich nicht geöffnet: Auf diesem Computer fehlt Microsoft Edge WebView2. Installiere es von der Website von Microsoft und versuche es erneut.
+428|Andere Sitzung wird beendet…
+429|Andere Sitzung wird beendet… (%@ s)
+430|PSN-Konto
+431|Trophäen
+432|Zuletzt gespielt
+433|Stufe %@
+434|%@ % bis Stufe %@
+435|Platin
+436|Gold
+437|Silber
+438|Bronze
+439|%@ von %@
+440|Trophäen werden geladen…
+441|Sony zeigt für diese Anmeldung keine Trophäen an.
+442|Trophäen konnten nicht geladen werden.
+443|Noch keine Trophäen.
+444|Zuletzt gespielte Spiele werden geladen…
+445|Noch keine zuletzt gespielten Spiele.
+446|Heute
+447|Gestern
+448|vor %@ Tagen
+449|Entfernte Server
+450|Meldet Sony eine geringere Latenz, damit ein Server über 80 ms angenommen wird. Das verstößt gegen Sonys Regeln: auf eigenes Risiko
+451|Der Server ist %@ ms entfernt, Sony nimmt bis %@ ms an. Um trotzdem zu spielen, aktiviere „Entfernte Server“ in den Stream-Einstellungen.
+452|%@: HTTP %@, Sony-Code %@: %@.

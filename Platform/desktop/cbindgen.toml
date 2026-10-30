@@ -1,0 +1,10 @@
+language = "C"
+documentation = false
+pragma_once = true
+sys_includes = ["stdint.h"]
+no_includes = true
+style = "type"
+
+[export]
+exclude = ["secret_password_store_sync", "secret_password_lookup_sync", "secret_password_clear_sync", "secret_password_free",
+           "g_error_free", "g_base64_encode", "g_base64_decode", "g_free", "SecretSchema", "SecretSchemaAttribute", "GError"]

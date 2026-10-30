@@ -1,0 +1,9 @@
+# Sign-in storage component
+
+`SoleCredentialAgent` is a separate executable with a local signature that owns the Keychain items `app.sole.credentials.agent.v1` (refresh token, Sony sign-in cookie, console keys). When the app is rebuilt, it is kept byte for byte. Otherwise macOS ties the password items of this self-signed app to the hash of the executable (cdhash) and asks for permission after every change of the file, even if the signing requirement is the same.
+
+**What it does.** Before reading stdin, the component checks the parent process reported by the system against the app identifier (`app.sole.desktop`) and against the same signing certificate. It accepts only item names known in advance and three actions: read, write, delete. Keychain dialogs are turned off. Secrets live only in the Keychain and in private channels between processes; they are not written to the log or to temporary files. The `probe` item holds only a constant empty value for checks.
+
+**How not to break it.** `build.sh` takes the ready-made component from `work/sole-signing`, checks its signature and the checksum of the `main.swift` source, then puts it in `Contents/Helpers`. Do not replace this file and do not change the signing certificate without migrating the items: otherwise you will have to sign in to the account again and get the console keys again. Moving to a Developer ID signature for distribution will need such a migration (see [docs/RELEASE.md](../docs/RELEASE.md)).
+
+**Checks.** The app's real executable writes a probe item (`--credential-check-write`), then a changed build of the app reads it (`--credential-check-read`): this checks that the sign-in survives a change of the app's cdhash; the probe item is deleted. If the component is started directly from the command line, it must answer `errSecAuthFailed` without accepting any data.

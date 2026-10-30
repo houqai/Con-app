@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.sole.Con</id>
+  <name>Con</name>
+  <summary>Cloud games and Remote Play for PlayStation</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <description>
+    <p>Play games from the PS Plus cloud catalogue (PS5, PS4 and PS3) or stream your own console over Remote Play, with a gamepad, on a PC or Steam Deck.</p>
+  </description>
+  <launchable type="desktop-id">app.sole.Con.desktop</launchable>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.5.1" date="2026-10-30"/>
+    <release version="0.3.2" date="2026-10-08"/>
+  </releases>
+</component>
