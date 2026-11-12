@@ -17,18 +17,26 @@ enum CloudLockDiagnostics {
         var result: [String: Any] = ["status": status, "forced": forced, "attempt": attempt, "elapsedMs": elapsedMs, "requestMs": requestMs,
                                      "headers": names.sorted(), "answer": shape(data)]
         if let retryAfter { result["retryAfter"] = retryAfter }
+        if let event = event(headers.first(where: { ($0.key as? String)?.lowercased() == "x-gaikai-event" })?.value) { result["event"] = event }
         return result
     }
 
-    static func shape(_ data: Data) -> [String: Any] {
+    static func event(_ value: Any?) -> [String: Any]? {
+        guard let value else { return nil }
+        let text = "\(value)"
+        guard text.utf8.count <= 8192 else { return ["bytes": text.utf8.count, "format": "too-long"] }
+        return shape(Data(text.utf8), parent: "event")
+    }
+
+    static func shape(_ data: Data, parent: String = "") -> [String: Any] {
         var result: [String: Any] = ["bytes": data.count]
         guard !data.isEmpty else { result["format"] = "empty"; return result }
         guard data.count < 2_000_000, let object = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) else { result["format"] = "non-json"; return result }
         if let dictionary = object as? [String: Any] {
-            result["format"] = "object"; result["fields"] = fields(dictionary, parent: "", nested: true)
+            result["format"] = "object"; result["fields"] = fields(dictionary, parent: parent, nested: true)
         } else if let array = object as? [Any] {
             result["format"] = "array(\(array.count))"
-            if let first = array.first as? [String: Any] { result["first"] = fields(first, parent: "", nested: false) }
+            if let first = array.first as? [String: Any] { result["first"] = fields(first, parent: parent, nested: false) }
         } else {
             result["format"] = type(object)
         }
@@ -66,7 +74,7 @@ enum CloudLockDiagnostics {
 
     static func keptValue(_ value: Any, key: String, parent: String) -> Any? {
         if boolean(value) { return (value as? NSNumber)?.boolValue ?? (value as? Bool) }
-        guard !sensitive(key) || (key.lowercased() == "name" && parent.lowercased().contains("error")) else { return nil }
+        guard !sensitive(key) || (key.lowercased() == "name" && ["error", "event"].contains { parent.lowercased().contains($0) }) else { return nil }
         if value is NSNumber, let number = CloudAllocation.integer(value), (-9999...9999).contains(number) { return number }
         if let text = value as? String, word(text) { return text }
         return nil
@@ -96,7 +104,7 @@ enum CloudLockDiagnostics {
         return ["id", "key", "token", "url", "uri", "ip", "host", "secret", "session", "auth", "cookie", "sign", "address", "name",
                 "user", "account", "online", "mail", "nonce", "hash", "ticket", "duid", "device", "serial", "code", "location", "path", "link",
                 "message", "description", "text", "title", "label", "display", "player", "owner", "game", "product", "entitlement"]
-            .contains { name.contains($0) } && !["errorcode", "eventcode", "componentcode", "statuscode", "reasoncode"].contains(name)
+            .contains { name.contains($0) } && !["errorcode", "eventcode", "componentcode", "statuscode", "reasoncode", "httpcode"].contains(name)
     }
 
     static func write(_ trace: [[String: Any]]) {

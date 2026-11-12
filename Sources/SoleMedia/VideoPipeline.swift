@@ -233,6 +233,7 @@ public final class VideoPipeline: @unchecked Sendable {
             counters.update { if display { $0.shownFrames += 1 } else { $0.hiddenFrames += 1 }; if wanted { $0.generation = .unavailable } }
             return true
         }
+        if (decoder.codec == .h265) != (bridge != nil) { bridge = decoder.codec == .h265 ? PictureOrderBridge() : nil }
         var bridgeSlices: [[UInt8]] = []
         switch bridge?.examine(decoder.lastUnitSlices, sps: decoder.sequenceParameters, pps: decoder.pictureParameters, frame: frame) {
         case .missingReference: return failed()

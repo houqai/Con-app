@@ -18,6 +18,15 @@ import Foundation
         #expect(stored == [0, 0, 0, 3, 0x65, 0xaa, 0xbb])
     }
 
+    @Test func anHevcDecoderTakesAnH264AccessUnit() {
+        let decoder = VideoDecoder(codec: .h265)
+        let stream: [UInt8] = [0, 0, 0, 1, 0x67, 0x64, 0x1F, 0, 0, 0, 1, 0x68, 0xEE, 0, 0, 1, 0x65, 0x88, 0x84]
+        _ = stream.withUnsafeBufferPointer { decoder.sampleBuffer(from: $0) }
+        #expect(decoder.codec == .h264)
+        #expect(decoder.lastUnitHadPicture)
+        #expect(decoder.lastUnitWasKeyframe)
+    }
+
     @Test func rejectsAnAccessUnitWithInvalidParameterSets() {
         for codec in [VideoDecoder.Codec.h264, .h265] {
             let decoder = VideoDecoder(codec: codec)

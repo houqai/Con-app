@@ -42,7 +42,7 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
         self.defaults = defaults
         catalogService = CloudCatalogService(cacheDirectory: caches?.appendingPathComponent("catalog"))
         func stored(_ key: String) -> Bool { defaults.object(forKey: key) != nil }
-        catalogLocale = defaults.string(forKey: "sole.catalogLocale") ?? "en-us"
+        catalogLocale = defaults.string(forKey: Self.chosenLocaleKey) ?? defaults.string(forKey: Self.accountLocaleKey) ?? "en-us"
         favoriteIDsData = defaults.data(forKey: "sole.favorites") ?? Data()
         language = defaults.string(forKey: AppLanguage.storageKey) ?? AppLanguage.english.rawValue
         videoFit = defaults.string(forKey: "sole.videoFit") ?? "fit"
@@ -200,6 +200,7 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
                             height: self.resolution,
                             bitrateKbps: Int(self.bitrate * 1000),
                             language: self.gameLanguage,
+                            catalogLocale: self.catalogLocale,
                             preferredDatacenter: preferred,
                             distantServers: self.distantServers,
                             forceLogout: forceLogout,
@@ -280,7 +281,9 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
             do {
                 let profile = try await authorization.signIn()
                 guard authAttempt == attempt, !Task.isCancelled else { return }
-                account = Account(profile); loginOpen = false
+                let signedIn = Account(profile)
+                account = signedIn; loginOpen = false
+                if followAccountRegion(signedIn) { reloadCatalog() }
                 await loadAccountData()
             } catch {
                 guard authAttempt == attempt, !Task.isCancelled else { return }
@@ -303,7 +306,9 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
         let revision = accountRevision
         do {
             if let profile = try await authorization.restore(), revision == accountRevision {
-                account = Account(profile)
+                let restored = Account(profile)
+                account = restored
+                if followAccountRegion(restored) { reloadCatalog() }
                 await loadAccountData()
             }
         } catch {
@@ -336,6 +341,7 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
                 recentGames = []
                 catalogGames.removeAll { $0.cloudBackend != .ps5 }
                 pcCatalogError = nil
+                ownedTitles = []
                 owned = OwnedLibrary()
                 datacenters = []
                 selectedDatacenter = Self.automaticDatacenter
@@ -369,6 +375,7 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
             }
         }
     }
+    private var ownedTitles: [CloudEntitlementService.OwnedTitle] = []
     public private(set) var owned: OwnedLibrary {
         willSet { changing() }
         didSet { invalidateLibraryCache(); defaults.set(try? JSONEncoder().encode(owned), forKey: "sole.ownedLibrary"); supplementStreamingCatalog() }
@@ -383,7 +390,9 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
             defer { ownedTask = nil; loadingOwned = false }
             guard let titles = try? await cloudAuthorization.ownedTitles(credential: { try await self.authorization.cloudSSO() }),
                   revision == accountRevision, !Task.isCancelled else { return }
+            ownedTitles = titles
             owned = OwnedLibrary(titles)
+            catalogGames = Library.withOwned(catalogGames, titles: titles, favorites: favoriteIDs)
         }
     }
     public func isOwned(_ game: Game) -> Bool { Library.isOwned(game, by: owned, claimed: claimedNames) }
@@ -463,7 +472,21 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
     public var catalogGames: [Game] = [] { willSet { changing() } didSet { invalidateLibraryCache() } }
     public var loadingCatalog = false { willSet { changing() } }
     public var catalogError: String? { willSet { changing() } }
-    public var catalogLocale: String { willSet { changing() } didSet { defaults.set(catalogLocale, forKey: "sole.catalogLocale") } }
+    public var catalogLocale: String { willSet { changing() } didSet { if !followingAccountRegion { defaults.set(catalogLocale, forKey: Self.chosenLocaleKey) } } }
+    private static let chosenLocaleKey = "sole.catalogLocale"
+    private static let accountLocaleKey = "con.accountCatalogLocale"
+    private var followingAccountRegion = false
+    @discardableResult func followAccountRegion(_ account: Account) -> Bool {
+        let locale = CatalogRegion.locale(forCountry: account.country)
+        Diagnostics.write(["country": account.country ?? "", "locale": locale ?? "", "chosen": defaults.string(forKey: Self.chosenLocaleKey) ?? ""], named: "account-region.json")
+        guard defaults.string(forKey: Self.chosenLocaleKey) == nil, let locale else { return false }
+        defaults.set(locale, forKey: Self.accountLocaleKey)
+        guard locale != catalogLocale else { return false }
+        followingAccountRegion = true
+        catalogLocale = locale
+        followingAccountRegion = false
+        return true
+    }
     public private(set) var pcCatalogError: String? { willSet { changing() } }
     public private(set) var loadingPCCatalog = false { willSet { changing() } }
     public func reloadCatalog(force: Bool = false) {
@@ -495,12 +518,16 @@ public enum SettingsSection: String, CaseIterable, Identifiable, Sendable {
         do {
             let titles = try await cloudAuthorization.pcTitles(force: force, credential: { try await self.authorization.cloudSSO() })
             guard account != nil, accountRevision == revision, !Task.isCancelled, attempt == nil || catalogAttempt == attempt else { return }
-            catalogGames = Library.catalog(catalogGames, replacingStreamed: titles, favorites: favoriteIDs)
+            catalogGames = Library.withOwned(Library.catalog(catalogGames, replacingStreamed: titles, favorites: favoriteIDs), titles: ownedTitles, favorites: favoriteIDs)
             pcCatalogError = nil
             supplementStreamingCatalog()
         } catch {
             guard !Task.isCancelled, account != nil, accountRevision == revision, attempt == nil || catalogAttempt == attempt else { return }
-            pcCatalogError = loc("Could not load the PS Plus PC catalog. Try refreshing the catalog.")
+            if case PSPlusPCService.Failure.unsupportedRegion = error {
+                pcCatalogError = loc("Sony does not offer PS Plus PC in your account's country, so it has no PS4 cloud games for this account.")
+            } else {
+                pcCatalogError = loc("Could not load the PS Plus PC catalog. Try refreshing the catalog.")
+            }
         }
     }
     private func supplementStreamingCatalog() {

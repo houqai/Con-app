@@ -44,6 +44,28 @@ final class CloudLockDiagnosticsTests: XCTestCase {
         XCTAssertEqual(object["forced"] as? Bool, true); XCTAssertEqual(object["attempt"] as? Int, 2)
         XCTAssertEqual(object["elapsedMs"] as? Int, 2100); XCTAssertEqual(object["status"] as? Int, 200)
     }
+    func testTheLockRecordKeepsTheEventReasonButNoSecrets() throws {
+        let event = #"{"name":"notAuthorized","reason":"deviceNotActivated","httpCode":401,"sessionId":"secret-session","accountId":"1234567890123456789","description":"SecretPlayer is not allowed","user":{"name":"SecretName"},"duid":"0000000700410080deadbeef"}"#
+        let body = Data(#"{"componentCode":"002","errors":[{"description":"Not authorized","eventCode":"002.0011"}],"httpCode":401}"#.utf8)
+        let entry = CloudLockDiagnostics.entry(status: 401, data: body, headers: ["X-Gaikai-Event": event, "X-Gaikai-Session": "secret-header-key"],
+                                               forced: false, attempt: 1, elapsedMs: 1341, requestMs: 1341)
+        let encoded = try JSONSerialization.data(withJSONObject: entry, options: .sortedKeys)
+        let text = String(decoding: encoded, as: UTF8.self)
+        XCTAssertFalse(text.lowercased().contains("secret"), text)
+        for leak in ["1234567890123456789", "deadbeef", "0000000700410080", "Not authorized"] { XCTAssertFalse(text.contains(leak), leak) }
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: encoded) as? [String: Any])
+        let recorded = try XCTUnwrap(object["event"] as? [String: Any])
+        XCTAssertEqual(Set(keptStrings(recorded)), ["notAuthorized", "deviceNotActivated"])
+        let fields = try XCTUnwrap(recorded["fields"] as? [String: [String: Any]])
+        XCTAssertEqual(fields["httpCode"]?["value"] as? Int, 401)
+        XCTAssertEqual(fields["sessionId"]?["type"] as? String, "string(14)")
+        XCTAssertNil(CloudLockDiagnostics.entry(status: 401, data: body, headers: [:], forced: false, attempt: 1, elapsedMs: 1, requestMs: 1)["event"])
+    }
+    func testAnEventThatIsNotJSONIsOnlyMeasured() {
+        XCTAssertEqual(CloudLockDiagnostics.event("secret text")?["format"] as? String, "non-json")
+        XCTAssertEqual(CloudLockDiagnostics.event(String(repeating: "a", count: 9000))?["format"] as? String, "too-long")
+        XCTAssertNil(CloudLockDiagnostics.event(nil))
+    }
     func testAnswersThatAreNotObjects() {
         XCTAssertEqual(CloudLockDiagnostics.shape(Data())["format"] as? String, "empty")
         XCTAssertEqual(CloudLockDiagnostics.shape(Data("<html>secret</html>".utf8))["format"] as? String, "non-json")

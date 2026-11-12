@@ -289,6 +289,35 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(player.calls, [])
     }
 
+    @MainActor func testTheCatalogFollowsTheCountryOfTheAccountUntilARegionIsChosen() {
+        func account(_ country: String?) -> Account {
+            var profile = self.profile
+            profile.country = country
+            return Account(profile)
+        }
+        let defaults = testSettings()
+        let first = model(defaults)
+        XCTAssertEqual(first.catalogLocale, "en-us")
+        XCTAssertTrue(first.followAccountRegion(account("PL")))
+        XCTAssertEqual(first.catalogLocale, "pl-pl")
+        XCTAssertNil(defaults.string(forKey: "sole.catalogLocale"), "The account's region is not a choice of the player")
+        XCTAssertFalse(first.followAccountRegion(account("PL")), "The same region does not load the catalog again")
+        XCTAssertEqual(model(defaults).catalogLocale, "pl-pl", "The next start opens the account's catalog at once")
+        XCTAssertFalse(first.followAccountRegion(account("KR")))
+        XCTAssertFalse(first.followAccountRegion(account(nil)))
+        XCTAssertEqual(first.catalogLocale, "pl-pl", "An unknown country keeps the catalog")
+        first.catalogLocale = "it-it"
+        XCTAssertFalse(first.followAccountRegion(account("GB")))
+        XCTAssertEqual(first.catalogLocale, "it-it", "A chosen region stays")
+        XCTAssertEqual(model(defaults).catalogLocale, "it-it")
+    }
+
+    func testCountriesMapToTheCatalogOfTheirStore() {
+        let expected: [String?: String?] = ["PL": "pl-pl", "pl": "pl-pl", "US": "en-us", "CA": "en-us", "BR": "en-us", "GB": "en-gb", "NL": "en-gb", "AU": "en-gb",
+                                            "AT": "de-de", "BE": "fr-fr", "JP": "ja-jp", "ES": "es-es", "IT": "it-it", "KR": nil, "HK": nil, "XX": nil, "POL": nil, nil: nil]
+        for (country, locale) in expected { XCTAssertEqual(CatalogRegion.locale(forCountry: country), locale, country ?? "nil") }
+    }
+
     @MainActor func testTheEndOfAStreamIsSaidOnTheGamesPage() async {
         let player = Player()
         let model = model(testSettings(), player: player)

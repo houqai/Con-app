@@ -1,7 +1,7 @@
 import SoleCore
 
 public enum ConVersion {
-    public static let number = "0.5.1"
+    public static let number = "0.5.2"
 }
 
 public func localizedCity(_ name: String) -> String {

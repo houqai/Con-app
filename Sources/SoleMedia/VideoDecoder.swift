@@ -10,6 +10,7 @@ public final class VideoDecoder {
     private var lastUnit = VideoStream.Unit()
 
     public init(codec: Codec) { stream = VideoStream(codec: codec) }
+    public var codec: Codec { stream.codec }
 
     public var lastUnitHadPicture: Bool { lastUnit.hasPicture }
     public var lastUnitWasKeyframe: Bool { lastUnit.isKeyframe }
@@ -23,7 +24,9 @@ public final class VideoDecoder {
     }
 
     public func sampleBuffer(from bytes: UnsafeBufferPointer<UInt8>) -> CMSampleBuffer? {
-        lastUnit = stream.read(bytes)
+        let read = stream.readAdapting(bytes)
+        lastUnit = read.unit
+        if read.switched { currentFormat = nil }
         if lastUnit.parametersChanged, let sets = stream.parameterSets { currentFormat = Self.format(stream.codec, parameterSets: sets) }
         guard lastUnit.hasPicture, let format = currentFormat else { return nil }
         return Self.makeSampleBuffer(lastUnit.lengthPrefixed, format: format)

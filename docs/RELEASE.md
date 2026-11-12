@@ -9,7 +9,7 @@
 
 ## Current build
 
-Con 0.5.1, build 27. Local signature Sole Local Development, without an Apple TeamIdentifier. The minimum system version in the bundle is macOS 26.0 (`Scripts/verify-release.sh` checks the app's files against the macOS 26 SDK); the engine is a static library from `Engine/build.sh`.
+Con 0.5.2, build 28. Local signature Sole Local Development, without an Apple TeamIdentifier. The minimum system version in the bundle is macOS 26.0 (`Scripts/verify-release.sh` checks the app's files against the macOS 26 SDK); the engine is a static library from `Engine/build.sh`.
 
 ## Before public distribution
 

@@ -6,7 +6,8 @@ import SoleLogic
 
 public final class AndroidMedia: StreamMedia, @unchecked Sendable {
     public var requestKeyframe: (@Sendable () -> Void)?
-    private let hevc: Bool
+    private let askedHEVC: Bool
+    private var hevc: Bool
     private let lock = NSLock()
     private var stream: VideoStream
     private let figures = VideoCounters()
@@ -39,6 +40,7 @@ public final class AndroidMedia: StreamMedia, @unchecked Sendable {
 
     public init(hevc: Bool) {
         self.hevc = hevc
+        askedHEVC = hevc
         Self.resetFigures()
         stream = VideoStream(codec: hevc ? .h265 : .h264)
         gate = LossGate()
@@ -47,7 +49,9 @@ public final class AndroidMedia: StreamMedia, @unchecked Sendable {
     public func video(_ buffer: UnsafeBufferPointer<UInt8>, frame: Int32, display: Bool) -> Bool {
         lock.lock(); defer { lock.unlock() }
         guard active, let bytes = buffer.baseAddress else { return true }
-        let unit = stream.read(buffer)
+        let read = stream.readAdapting(buffer)
+        let unit = read.unit
+        if read.switched { hevc = stream.codec == .h265; open = false }
         figures.update { $0.receivedFrames += 1; $0.bytes += buffer.count; if unit.isKeyframe { $0.keyframes += 1 } }
         if !open {
             open = con_video_open(hevc ? 1 : 0) == 0
@@ -104,7 +108,7 @@ public final class AndroidMedia: StreamMedia, @unchecked Sendable {
         var pictures: Int32 = 0, width: Int32 = 0, height: Int32 = 0, written: Int32 = 0, refused: Int32 = 0
         con_video_counts(&pictures, &width, &height)
         con_audio_counts(&written, &refused)
-        let hevc = hevc
+        let hevc = lock.withLock { self.hevc }
         reading.video = figures.update {
             $0.shownFrames = Int(pictures); $0.newFrames = Int(pictures)
             $0.decodeMs = Double(con_video_decode_us()) / 1000
@@ -117,7 +121,7 @@ public final class AndroidMedia: StreamMedia, @unchecked Sendable {
         reading.audioNonSilent = loud
         reading.audioPlayed = buffers - Int(refused)
         reading.audioErrors = Int(refused)
-        reading.askedHEVC = hevc
+        reading.askedHEVC = askedHEVC
         return reading
     }
 

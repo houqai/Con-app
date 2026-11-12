@@ -153,6 +153,18 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(Library.catalog(before, replacingStreamed: [], favorites: []).map(\.id), ["concept:1", "concept:2"], "Sorted by title; the old PS4 games are gone")
     }
 
+    func testBoughtGamesOfOlderConsolesJoinTheCatalogInTitleOrder() {
+        let catalog = [game("concept:1", "Alpha"), game("concept:2", "Delta")]
+        let titles: [CloudEntitlementService.OwnedTitle] = [
+            .init(productID: "EP0001-CUSA00001_00-GAME000000000001", name: "Charlie"),
+            .init(productID: "EP0001-PPSA00002_00-GAME000000000002", name: "Bravo"),
+            .init(productID: "EP0001-CUSA00003_00-GAME000000000003")
+        ]
+        let joined = Library.withOwned(catalog, titles: titles, favorites: [])
+        XCTAssertEqual(joined.map(\.title), ["Alpha", "Charlie", "Delta"], "Only the named PS4 game joins, in title order")
+        XCTAssertEqual(Library.withOwned(joined, titles: titles, favorites: []).count, 3, "Not added twice")
+    }
+
     func testAHeightStartsFromItsBitrateAndOlderCloudsStreamLower() {
         XCTAssertEqual(StreamQuality.heights.map(StreamQuality.bitrate), [5, 8, 10, 30, 40, 50])
         XCTAssertEqual(StreamQuality.bitrate(height: 900), 30)

@@ -59,6 +59,7 @@ enum CloudResponseDiagnostics {
         result["fields"] = Array(Set(fields)).sorted(); result["codes"] = codes
         result["categories"] = categories.sorted(); result["types"] = types
         result["cloudfront"] = response.value(forHTTPHeaderField: "Server")?.lowercased() == "cloudfront"
+        if let event = CloudLockDiagnostics.event(response.value(forHTTPHeaderField: "X-Gaikai-Event")) { result["event"] = event }
         return try? JSONSerialization.data(withJSONObject: result, options: .sortedKeys)
     }
 }

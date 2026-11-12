@@ -144,9 +144,7 @@ public struct SonyLogin: Sendable {
         guard !result.accessToken.isEmpty, !result.refreshToken.isEmpty else { throw AuthError.invalidCallback }
         return result
     }
-    private func accountID(_ tokens: Tokens) async throws -> String {
-        if let id = PSNIdentity.accountID(fromJWT: tokens.accessToken) { return id }
-        if let token = tokens.idToken, let id = PSNIdentity.accountID(fromJWT: token) { return id }
+    private func tokenInfo(_ tokens: Tokens) async throws -> Data {
         let url = URL(string: Self.base + "/token")!.appendingPathComponent(tokens.accessToken)
         var request = URLRequest(url: url)
         request.cachePolicy = .reloadIgnoringLocalCacheData
@@ -155,8 +153,18 @@ public struct SonyLogin: Sendable {
         let (data, response) = try await httpSession.plainData(for: request)
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
         guard (200..<300).contains(status) else { throw Self.serviceError(status, step: loc("Getting the account ID"), data: data) }
-        guard let id = PSNIdentity.accountID(fromTokenInfo: data) else { throw AuthError.identityUnavailable }
+        return data
+    }
+    private func accountID(_ tokens: Tokens) async throws -> String {
+        if let id = PSNIdentity.accountID(fromJWT: tokens.accessToken) { return id }
+        if let token = tokens.idToken, let id = PSNIdentity.accountID(fromJWT: token) { return id }
+        guard let id = PSNIdentity.accountID(fromTokenInfo: try await tokenInfo(tokens)) else { throw AuthError.identityUnavailable }
         return id
+    }
+    private func country(_ tokens: Tokens) async -> String? {
+        if let country = PSNIdentity.country(fromJWT: tokens.accessToken) { return country }
+        if let token = tokens.idToken, let country = PSNIdentity.country(fromJWT: token) { return country }
+        return (try? await tokenInfo(tokens)).flatMap(PSNIdentity.country(fromTokenInfo:))
     }
     private func profile(_ tokens: Tokens) async throws -> PSNProfile {
         let id = try await accountID(tokens)
@@ -166,7 +174,8 @@ public struct SonyLogin: Sendable {
         let (data, response) = try await httpSession.plainData(for: request)
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
         guard (200..<300).contains(status) else { throw Self.serviceError(status, step: loc("Loading the profile"), data: data) }
-        guard let profile = PSNProfile.decode(data) else { throw AuthError.invalidCallback }
+        guard var profile = PSNProfile.decode(data) else { throw AuthError.invalidCallback }
+        profile.country = await country(tokens)
         return profile
     }
 

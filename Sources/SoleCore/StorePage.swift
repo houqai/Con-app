@@ -19,4 +19,30 @@ public enum StorePage {
         }
         return caches
     }
+
+    public static func ps5FullGame(_ html: Data, conceptID: Int) -> String? {
+        var concepts: [[String: Any]] = []
+        var products: [String: [String: Any]] = [:]
+        for cache in caches(in: html) {
+            for (key, value) in cache {
+                guard let object = value as? [String: Any] else { continue }
+                if key == "Concept:\(conceptID)" { concepts.append(object) }
+                if key.hasPrefix("Product:"), let id = object["id"] as? String { products[id] = object }
+            }
+        }
+        let listed = concepts.flatMap { $0["products"] as? [[String: Any]] ?? [] }.compactMap { ref -> (String, String)? in
+            guard let key = ref["__ref"] as? String, let id = key.split(separator: ":", maxSplits: 1).last.map(String.init),
+                  let product = products[id], id.contains("-PPSA"),
+                  (product["platforms"] as? [String])?.contains("PS5") == true,
+                  let kind = product["storeDisplayClassification"] as? String else { return nil }
+            return (id, kind)
+        }
+        if let full = listed.first(where: { $0.1 == "FULL_GAME" }) { return full.0 }
+        for concept in concepts {
+            guard let key = (concept["defaultProduct"] as? [String: Any])?["__ref"] as? String,
+                  let id = key.split(separator: ":", maxSplits: 1).last.map(String.init), id.contains("-PPSA") else { continue }
+            return id
+        }
+        return listed.first?.0
+    }
 }

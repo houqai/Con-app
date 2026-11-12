@@ -451,3 +451,4 @@
 450|Indique à Sony une latence plus faible pour qu'un serveur au-delà de 80 ms soit accepté. Cela enfreint les règles de Sony : à vos risques
 451|Le serveur est à %@ ms, et Sony accepte jusqu'à %@ ms. Pour jouer quand même, activez « Serveurs éloignés » dans les réglages du stream.
 452|%@ : HTTP %@, code Sony %@ : %@.
+453|Sony ne propose pas PS Plus PC dans le pays de votre compte : aucun jeu PS4 en cloud n'est disponible pour ce compte.

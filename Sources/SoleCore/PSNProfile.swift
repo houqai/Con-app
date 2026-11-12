@@ -4,6 +4,7 @@ public struct PSNProfile: Sendable, Equatable {
     public let onlineID: String
     public let avatarURL: URL?
     public let isPlus: Bool?
+    public var country: String? = nil
 
     public static func decode(_ data: Data) -> PSNProfile? {
         guard let object = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any],

@@ -103,7 +103,7 @@ public actor CloudSessionService {
     }
     private struct Configuration: Decodable { let configKey: String }
     private struct Clients: Decodable { let gkClientId: String; let streamServerClientId: String; let ps3GkClientId: String? }
-    private struct Started: Decodable { let sessionId: String }
+    private struct Started: Decodable { let sessionId: String; let gkClientId: String?; let streamServerClientId: String? }
     public func clients() async throws -> (cloud: String, stream: String) {
         let (data, _) = try await request(url: URL(string: "https://cc.prod.gaikai.com/v1/client_ids?virtType=cronos")!, stage: "PS5 Cloud clients")
         let result = try JSONDecoder().decode(Clients.self, from: data)
@@ -122,7 +122,7 @@ public actor CloudSessionService {
         let clients = try JSONDecoder().decode(Clients.self, from: clientData)
         guard UUID(uuidString: clients.gkClientId) != nil, UUID(uuidString: clients.streamServerClientId) != nil else { throw CloudProtocol.Failure.invalidResponse }
         try ensureCurrent(attempt)
-        let (configuration, _) = try await request(url: URL(string: "https://config.cc.prod.gaikai.com/v1/config")!, method: "POST", body: ["product": pc ? "psnow" : "qlite", "platform": pc ? "PC" : "qlite", "sessionId": ""], stage: "Cloud configuration")
+        let (configuration, _) = try await request(url: URL(string: "https://config.cc.prod.gaikai.com/v1/config")!, method: "POST", body: ["product": "psnow", "platform": "PC", "sessionId": ""], stage: "Cloud configuration")
         let key = try JSONDecoder().decode(Configuration.self, from: configuration).configKey
         guard Self.validKey(key) else { throw CloudProtocol.Failure.invalidResponse }
         try ensureCurrent(attempt)
@@ -131,11 +131,11 @@ public actor CloudSessionService {
         let offset = TimeZone.current.secondsFromGMT()
         let zone = String(format: "UTC%@%02d:%02d", offset >= 0 ? "+" : "-", abs(offset) / 3600, abs(offset) % 3600 / 60)
         specification = [
-            "model": "portal", "platform": "qlite", "gaikaiPlayer": "16.4.0", "protocolVersion": 12,
+            "model": "WINDOWS", "platform": "PC", "gaikaiPlayer": "12.5.0", "protocolVersion": 12,
             "capabilities": ["cloudDrivenSenkushaTest", "cronos"], "npEnv": "np",
             "audioUploadEnabled": false, "audioUploadNumChannels": 1, "audioUploadSamplingFrequency": 48000,
             "summerTime": TimeZone.current.isDaylightSavingTime() ? 1 : 0, "timeZone": zone,
-            "httpUserAgent": Self.portalUserAgent,
+            "httpUserAgent": PSPlusPCService.userAgent,
             "partyCapability": false, "homesharing": false, "isFirstBoot": false, "yuvCoefficient": "",
             "isPlusMember": isPlusMember, "parentalLevel": 0,
             "accessibilityMarqueeSpeed": 0, "accessibilityLargeText": 0, "accessibilityBoldText": 0,
@@ -169,7 +169,12 @@ public actor CloudSessionService {
         }
         let (data, startResponse) = try await request(url: URL(string: "https://cc.prod.gaikai.com/v1/sessions/start?npEnv=np")!, method: "POST", body: ["requestGameSpecification": specification], stage: "Creating the cloud session")
         let started = try JSONDecoder().decode(Started.self, from: data)
-        let session = CloudProtocol.Session(sessionId: started.sessionId, gkClientId: clients.gkClientId, streamServerClientId: pc ? (clients.ps3GkClientId ?? clients.streamServerClientId) : clients.streamServerClientId)
+        let sessionCloud = started.gkClientId.flatMap { UUID(uuidString: $0) != nil ? $0 : nil }
+        let sessionStream = started.streamServerClientId.flatMap { UUID(uuidString: $0) != nil ? $0 : nil }
+        noteStartClients(cloud: sessionCloud.map { $0 == clients.gkClientId }, stream: sessionStream.map { $0 == clients.streamServerClientId })
+        let session = CloudProtocol.Session(sessionId: started.sessionId,
+                                            gkClientId: pc ? clients.gkClientId : sessionCloud ?? clients.gkClientId,
+                                            streamServerClientId: pc ? (clients.ps3GkClientId ?? clients.streamServerClientId) : sessionStream ?? clients.streamServerClientId)
         try session.validate()
         try ensureCurrent(attempt)
         try rotateKey(startResponse)
@@ -287,6 +292,19 @@ public actor CloudSessionService {
         try rotateKey(response)
         return try CloudAllocation.decode(data)
     }
+    private func writeKeyTrace() {
+        guard let directory = Diagnostics.directory,
+              let encoded = try? JSONSerialization.data(withJSONObject: keyTrace, options: [.sortedKeys]) else { return }
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        try? encoded.write(to: directory.appendingPathComponent("cloud-key-structure.json"), options: .atomic)
+    }
+    private func noteStartClients(cloud: Bool?, stream: Bool?) {
+        guard recordsFailureDiagnostics, !keyTrace.isEmpty else { return }
+        func state(_ same: Bool?) -> String { same.map { $0 ? "same" : "different" } ?? "absent" }
+        keyTrace[keyTrace.count - 1]["sessionCloudClient"] = state(cloud)
+        keyTrace[keyTrace.count - 1]["sessionStreamClient"] = state(stream)
+        writeKeyTrace()
+    }
     private func ensureCurrent(_ attempt: UUID) throws {
         try Task.checkCancellation()
         guard generation == attempt else { throw CloudProtocol.Failure.cancelled }
@@ -327,7 +345,7 @@ public actor CloudSessionService {
     private func request(url: URL, method: String = "GET", body: [String: Any]? = nil, stage: String) async throws -> (Data, HTTPURLResponse) {
         var request = URLRequest(url: url)
         request.httpMethod = method
-        request.setValue(backend != .ps5 ? PSPlusPCService.userAgent : Self.portalUserAgent, forHTTPHeaderField: "User-Agent")
+        request.setValue(PSPlusPCService.userAgent, forHTTPHeaderField: "User-Agent")
         request.setValue("*/*", forHTTPHeaderField: "Accept")
         if let body {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -366,11 +384,7 @@ public actor CloudSessionService {
                 if let slot = object["launchSlot"] as? [String: Any] { entry["slotShape"] = shape(slot) }
             }
             keyTrace.append(entry)
-            if let directory = Diagnostics.directory,
-               let encoded = try? JSONSerialization.data(withJSONObject: keyTrace, options: [.sortedKeys]) {
-                try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-                try? encoded.write(to: directory.appendingPathComponent("cloud-key-structure.json"), options: .atomic)
-            }
+            writeKeyTrace()
         }
         guard (200..<300).contains(response.statusCode) else {
             if recordsFailureDiagnostics { CloudResponseDiagnostics.record(status: response.statusCode, data: data, response: response) }
@@ -381,6 +395,8 @@ public actor CloudSessionService {
                response.value(forHTTPHeaderField: "Server")?.lowercased() == "cloudfront" || response.value(forHTTPHeaderField: "X-Cache")?.lowercased().contains("cloudfront") == true {
                 throw CloudProtocol.Failure.serviceEvent(403, stage, "gatewayDenied")
             }
+            let eventName = (firstError?["name"] as? String) ?? (object?["name"] as? String) ?? (event?["name"] as? String) ?? ""
+            if eventName == "invalidEntitlement" { throw CloudProtocol.Failure.serviceEvent(response.statusCode, stage, eventName) }
             if let component = object?["componentCode"] as? String,
                let event = firstError?["eventCode"],
                let eventString = (event as? String) ?? (event as? NSNumber)?.stringValue,
@@ -389,9 +405,8 @@ public actor CloudSessionService {
                 throw CloudProtocol.Failure.serviceCode(response.statusCode, stage, eventString.hasPrefix(component + ".") ? eventString : component + "." + eventString,
                                                         Self.readable(firstError?["description"] as? String))
             }
-            let name = (firstError?["name"] as? String) ?? (object?["name"] as? String) ?? (event?["name"] as? String) ?? ""
-            if ["noGameForEntitlementId", "noGameForEntitlement", "AUTHORIZATION_FAILED", "invalidGameSpecification", "invalidRequest", "invalidAuthCode", "missingEntitlementId", "invalidRequestBody", "noAvailableDatacenter", "invalidSession", "invalidDataCenter", "noCapacity", "sessionNotLocked", "allocationFailed"].contains(name) {
-                throw CloudProtocol.Failure.serviceEvent(response.statusCode, stage, name)
+            if ["noGameForEntitlementId", "noGameForEntitlement", "AUTHORIZATION_FAILED", "invalidGameSpecification", "invalidRequest", "invalidAuthCode", "missingEntitlementId", "invalidRequestBody", "noAvailableDatacenter", "invalidSession", "invalidDataCenter", "noCapacity", "sessionNotLocked", "allocationFailed"].contains(eventName) {
+                throw CloudProtocol.Failure.serviceEvent(response.statusCode, stage, eventName)
             }
             throw CloudProtocol.Failure.service(response.statusCode, stage)
         }

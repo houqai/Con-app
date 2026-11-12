@@ -72,7 +72,7 @@ public struct CloudFailure: Equatable, Sendable {
         case CloudProtocol.Failure.serviceEvent(_, let stage, "gatewayDenied"):
             text = loc("%@: Sony's network gateway rejected the request (HTTP 403).", loc(stage))
         case CloudProtocol.Failure.serviceEvent(let code, let stage, let event):
-            if ["noGameForEntitlementId", "noGameForEntitlement"].contains(event) {
+            if ["noGameForEntitlementId", "noGameForEntitlement", "invalidEntitlement"].contains(event) {
                 text = loc("Sony did not confirm a cloud license for this game.")
             } else {
                 text = loc("%@: HTTP %@, Sony event %@.", loc(stage), code, event)

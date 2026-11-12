@@ -103,7 +103,8 @@ private final class PipeReading: @unchecked Sendable {
 
 final class DesktopMedia: StreamMedia, @unchecked Sendable {
     var requestKeyframe: (@Sendable () -> Void)?
-    private let hevc: Bool
+    private let askedHEVC: Bool
+    private var hevc: Bool
     private let lock = NSLock()
     private var stream: VideoStream
     private var gate: LossGate
@@ -124,6 +125,7 @@ final class DesktopMedia: StreamMedia, @unchecked Sendable {
 
     init(hevc: Bool) {
         self.hevc = hevc
+        askedHEVC = hevc
         stream = VideoStream(codec: hevc ? .h265 : .h264)
         gate = LossGate()
     }
@@ -132,7 +134,9 @@ final class DesktopMedia: StreamMedia, @unchecked Sendable {
         let arrival = DispatchTime.now().uptimeNanoseconds
         lock.lock(); defer { lock.unlock() }
         guard active, let bytes = buffer.baseAddress else { return true }
-        let unit = stream.read(buffer)
+        let read = stream.readAdapting(buffer)
+        let unit = read.unit
+        if read.switched { hevc = stream.codec == .h265; open = false }
         figures.update { $0.receivedFrames += 1; $0.bytes += buffer.count; if unit.isKeyframe { $0.keyframes += 1 } }
         if !open {
             open = con_video_open(hevc ? 1 : 0) == 0
@@ -202,7 +206,7 @@ final class DesktopMedia: StreamMedia, @unchecked Sendable {
         var reading = StreamMeter.Reading()
         var decoded: Int32 = 0, drawn: Int32 = 0, skipped: Int32 = 0, generated: Int32 = 0, width: Int32 = 0, height: Int32 = 0, decodeTime: Int32 = 0, interval: Int32 = 0
         con_video_counts(&decoded, &drawn, &skipped, &generated, &width, &height, &decodeTime, &interval)
-        let hevc = hevc
+        let hevc = lock.withLock { self.hevc }
         lock.lock()
         let made = generated > lastGenerated
         lastGenerated = generated
@@ -221,7 +225,7 @@ final class DesktopMedia: StreamMedia, @unchecked Sendable {
         }
         lock.lock(); let pieces = soundPieces, loud = loudPieces, out = leftOut; lock.unlock()
         reading.audioReceived = pieces; reading.audioNonSilent = loud; reading.audioPlayed = pieces - out; reading.audioErrors = out
-        reading.askedHEVC = hevc
+        reading.askedHEVC = askedHEVC
         return reading
     }
 

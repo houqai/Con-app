@@ -49,6 +49,7 @@ import SoleEngine
         height: Int = 1080,
         bitrateKbps: Int = 10_000,
         language: String = "en",
+        catalogLocale: String = "",
         preferredDatacenter: String? = nil,
         distantServers: Bool = false,
         forceLogout: Bool = false,
@@ -84,7 +85,23 @@ import SoleEngine
             } else {
                 let entitlementToken = try await commerceGrant(sso: sso)
                 try check(attempt)
-                resolvedEntitlement = try await entitlements.resolve(productID: entitlementID, conceptID: conceptID, title: title, token: entitlementToken)
+                let ownedEntitlement: String?
+                do {
+                    ownedEntitlement = try await entitlements.resolve(productID: entitlementID, conceptID: conceptID, title: title, token: entitlementToken)
+                } catch CloudEntitlementService.Failure.unavailable {
+                    ownedEntitlement = nil
+                }
+                var chosen = ownedEntitlement
+                if chosen == nil, let entitlementID, await entitlements.isActive(entitlementID, token: entitlementToken) { chosen = entitlementID }
+                if chosen == nil, let entitlementID, isPlusMember {
+                    await pcService.acquireFreeCatalogLicense(productID: entitlementID, sso: sso, deviceID: deviceID)
+                    if await entitlements.isActive(entitlementID, token: entitlementToken) { chosen = entitlementID }
+                }
+                if chosen == nil, isPlusMember, let storeID = await entitlements.subscriptionProduct(conceptID: conceptID, locale: catalogLocale),
+                   await entitlements.isActive(storeID, token: entitlementToken) { chosen = storeID }
+                Diagnostics.write(["owned": ownedEntitlement != nil, "catalog": entitlementID ?? "", "chosen": chosen ?? ""], named: "subscription-license.json")
+                guard let chosen else { throw CloudEntitlementService.Failure.unavailable }
+                resolvedEntitlement = chosen
             }
             try check(attempt)
             progress(loc("Creating the game session…"))

@@ -27,8 +27,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <key>CFBundleName</key><string>Con</string>
 <key>CFBundleDisplayName</key><string>Con</string>
 <key>CFBundlePackageType</key><string>APPL</string>
-<key>CFBundleShortVersionString</key><string>0.5.1</string>
-<key>CFBundleVersion</key><string>27</string>
+<key>CFBundleShortVersionString</key><string>0.5.2</string>
+<key>CFBundleVersion</key><string>28</string>
 <key>LSMinimumSystemVersion</key><string>26.0</string>
 <key>LSApplicationCategoryType</key><string>public.app-category.games</string>
 <key>LSSupportsGameMode</key><true/>

@@ -21,6 +21,19 @@ final class CloudResponseDiagnosticsTests: XCTestCase {
         XCTAssertEqual(result["cloudfront"] as? Bool, true)
     }
 
+    func testRefusalKeepsTheEventNameFromTheHeader() throws {
+        let response = HTTPURLResponse(url: URL(string: "https://cc.prod.gaikai.com/v1/sessions/s/lock")!, statusCode: 401, httpVersion: nil,
+                                       headerFields: ["X-Gaikai-Event": #"{"name":"notAuthorized","token":"secret-token"}"#])!
+        let body = Data(#"{"componentCode":"002","errors":[{"description":"Not authorized","eventCode":"002.0011"}],"httpCode":401}"#.utf8)
+        let encoded = try XCTUnwrap(CloudResponseDiagnostics.summary(status: 401, data: body, response: response))
+        XCTAssertFalse(String(decoding: encoded, as: UTF8.self).contains("secret"))
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: encoded) as? [String: Any])
+        let fields = try XCTUnwrap((object["event"] as? [String: Any])?["fields"] as? [String: [String: Any]])
+        XCTAssertEqual(fields["name"]?["value"] as? String, "notAuthorized")
+        XCTAssertEqual(fields["token"]?["type"] as? String, "string(12)")
+        XCTAssertNil(fields["token"]?["value"])
+    }
+
     func testPingLimitRefusalKeepsCategoryWithoutResponseText() throws {
         let body = Data(#"{"componentCode":"002","errors":[{"description":"No data centers exist with ping results between 0 and 80","eventCode":"002.0019"}],"httpCode":400}"#.utf8)
         let response = HTTPURLResponse(url: URL(string: "https://cc.prod.gaikai.com/v1/sessions/s/datacenters/select")!, statusCode: 400, httpVersion: nil, headerFields: [:])!

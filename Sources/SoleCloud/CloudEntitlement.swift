@@ -284,6 +284,33 @@ public actor CloudEntitlementService {
         return id.contains("-CUSA") ? nil : id
     }
 
+    public func isActive(_ id: String, token: String) async -> Bool {
+        guard Self.validID(id), SonySSO.validValue(token),
+              let url = URL(string: "https://commerce.api.np.km.playstation.net/commerce/api/v1/users/me/internal_entitlements/\(id)?fields=active_flag") else { return false }
+        var request = URLRequest(url: url)
+        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        guard let (data, response) = try? await http.plainData(for: request),
+              let response = response as? HTTPURLResponse, response.statusCode == 200,
+              let row = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return false }
+        return row["active_flag"] as? Bool != false
+    }
+    static func storeLocales(first locale: String) -> [String] {
+        ([locale, "en-us", "en-gb"].filter { !$0.isEmpty }).reduce(into: [String]()) { if !$0.contains($1) { $0.append($1) } }
+    }
+    public func subscriptionProduct(conceptID: Int?, locale: String = "") async -> String? {
+        guard let conceptID, conceptID > 0 else { return nil }
+        for locale in Self.storeLocales(first: locale) {
+            guard let url = StorePage.endpoint(conceptID: conceptID, locale: locale) else { continue }
+            do {
+                let (data, response) = try await http.plainData(from: url)
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200, data.count < 10_000_000 else { continue }
+                if let id = StorePage.ps5FullGame(data, conceptID: conceptID) { return id }
+            } catch {
+                continue
+            }
+        }
+        return nil
+    }
     static func validID(_ value: String) -> Bool {
         !value.isEmpty && value.count <= 128 && value.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || "_-".contains($0)) }
     }

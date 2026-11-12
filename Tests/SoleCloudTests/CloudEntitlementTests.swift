@@ -142,6 +142,9 @@ final class CloudEntitlementTests: XCTestCase {
             .init(productID: "UP4497-PPSA03974_00-0000000000000CP1", licenseID: "UP4497-CUSA16596_00-0000000000000004", conceptID: 234567, name: "Cyberpunk 2077"),
             .init(productID: "UP0001-PPSA00006_00-BYPACKAGE", conceptID: 77)
         ])
+        XCTAssertEqual(CloudEntitlementService.storeLocales(first: "de-de"), ["de-de", "en-us", "en-gb"])
+        XCTAssertEqual(CloudEntitlementService.storeLocales(first: "en-gb"), ["en-gb", "en-us"])
+        XCTAssertEqual(CloudEntitlementService.storeLocales(first: ""), ["en-us", "en-gb"])
         XCTAssertEqual(CloudEntitlementService.owned([], includePS4: true), [])
         XCTAssertEqual(CloudEntitlementService.owned(rows, includePS4: true).count, 4)
         XCTAssertEqual(CloudEntitlementService.owned([]), [])

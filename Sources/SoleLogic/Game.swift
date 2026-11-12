@@ -36,7 +36,8 @@ public struct Account: Sendable {
     public let displayName: String
     public var avatarURL: URL?
     public var isPlus: Bool?
-    public init(_ profile: PSNProfile) { displayName = profile.onlineID; avatarURL = profile.avatarURL; isPlus = profile.isPlus }
+    public var country: String?
+    public init(_ profile: PSNProfile) { displayName = profile.onlineID; avatarURL = profile.avatarURL; isPlus = profile.isPlus; country = profile.country }
 }
 
 public struct Datacenter: Identifiable, Codable, Sendable {

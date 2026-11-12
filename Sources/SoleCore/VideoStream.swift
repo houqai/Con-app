@@ -3,7 +3,7 @@ import Foundation
 public enum VideoCodec: Sendable { case h264, h265 }
 
 public struct VideoStream: Sendable {
-    public let codec: VideoCodec
+    public private(set) var codec: VideoCodec
     public private(set) var videoParameters: [UInt8]?
     public private(set) var sequenceParameters: [UInt8]?
     public private(set) var pictureParameters: [UInt8]?
@@ -50,6 +50,17 @@ public struct VideoStream: Sendable {
             }
         }
         return unit
+    }
+
+    public mutating func readAdapting(_ bytes: UnsafeBufferPointer<UInt8>) -> (unit: Unit, switched: Bool) {
+        let known = parameterSets != nil
+        let unit = read(bytes)
+        guard !known, !unit.carriesParameters else { return (unit, false) }
+        var other = VideoStream(codec: codec == .h265 ? .h264 : .h265)
+        let alternative = other.read(bytes)
+        guard other.parameterSets != nil else { return (unit, false) }
+        self = other
+        return (alternative, true)
     }
 
     public static func lengthPrefixed<Slice: Collection>(_ slice: Slice) -> [UInt8] where Slice.Element == UInt8 {

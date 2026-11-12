@@ -451,3 +451,4 @@
 450|Zgłasza Sony mniejsze opóźnienie, aby przyjęła serwer powyżej 80 ms. To łamie zasady Sony: na własne ryzyko
 451|Serwer jest oddalony o %@ ms, a Sony przyjmuje do %@ ms. Aby mimo to zagrać, włącz „Odległe serwery” w ustawieniach transmisji.
 452|%@: HTTP %@, kod Sony %@: %@.
+453|Sony nie oferuje PS Plus PC w kraju Twojego konta, więc dla tego konta nie ma gier PS4 w chmurze.

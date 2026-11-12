@@ -21,6 +21,15 @@ final class PSNIdentityTests: XCTestCase {
         XCTAssertNil(PSNIdentity.accountID(fromJWT: jwt(#"{"sub":"opaque-uuid"}"#)))
     }
 
+    func testTheCountryOfTheAccountIsTwoLetters() {
+        XCTAssertEqual(PSNIdentity.country(fromJWT: jwt(#"{"user_id":"1","country_code":"pl"}"#)), "PL")
+        XCTAssertEqual(PSNIdentity.country(fromJWT: jwt(#"{"legal_country":"DE"}"#)), "DE")
+        XCTAssertEqual(PSNIdentity.country(fromTokenInfo: Data(#"{"user_id":"1","country_code":"GB","language_code":"en"}"#.utf8)), "GB")
+        for value in ["", "POL", "1A", "P", "ПЛ"] { XCTAssertNil(PSNIdentity.normalizedCountry(value), value) }
+        XCTAssertNil(PSNIdentity.country(fromJWT: jwt(#"{"country_code":7}"#)))
+        XCTAssertNil(PSNIdentity.country(fromJWT: "not-a-jwt"))
+    }
+
     func testTheAccountOfATokenInfoAnswerIsATextOrAWholeNumber() {
         XCTAssertEqual(PSNIdentity.accountID(fromTokenInfo: Data(#"{"user_id":"1234567890123456789","scopes":["a"],"nested":{"user_id":"9"}}"#.utf8)), "1234567890123456789")
         XCTAssertEqual(PSNIdentity.accountID(fromTokenInfo: Data(#"{"user_id":1234567890123456789}"#.utf8)), "1234567890123456789")

@@ -50,6 +50,32 @@ import Testing
         #expect(stream.sequenceParameters == [0x67, 0x64, 0x28])
     }
 
+    @Test func aStreamOfTheOtherCodecIsTakenOnceItsParameterSetsArriveTogether() {
+        func adapt(_ stream: inout VideoStream, _ bytes: [UInt8]) -> (unit: VideoStream.Unit, switched: Bool) {
+            bytes.withUnsafeBufferPointer { stream.readAdapting($0) }
+        }
+        let avc: [UInt8] = [0,0,0,1, 0x67, 0x64, 0x1F, 0,0,0,1, 0x68, 0xEE, 0,0,1, 0x65, 0x88]
+        let hevc: [UInt8] = [0,0,0,1, 0x40, 0x01, 0xAA, 0,0,0,1, 0x42, 0x01, 0xBB, 0,0,0,1, 0x44, 0x01, 0xCC, 0,0,0,1, 0x26, 0x01, 0xDD]
+        var asked265 = VideoStream(codec: .h265)
+        #expect(!adapt(&asked265, [0,0,0,1, 0x41, 0x9A]).switched)
+        #expect(!adapt(&asked265, [0,0,0,1, 0x02, 0x01, 0xD0]).switched)
+        let first = adapt(&asked265, avc)
+        #expect(first.switched)
+        #expect(asked265.codec == .h264)
+        #expect(first.unit.isKeyframe)
+        #expect(!adapt(&asked265, hevc).switched)
+        var asked264 = VideoStream(codec: .h264)
+        #expect(!adapt(&asked264, [0,0,0,1, 0x42, 0x01, 0xBB]).switched)
+        let other = adapt(&asked264, hevc)
+        #expect(other.switched)
+        #expect(asked264.codec == .h265)
+        #expect(other.unit.isKeyframe)
+        var kept = VideoStream(codec: .h265)
+        #expect(!adapt(&kept, hevc).switched)
+        #expect(!adapt(&kept, avc).switched)
+        #expect(kept.codec == .h265)
+    }
+
     @Test func h265NeedsItsThreeParameterSetsInTheirOrder() {
         var stream = VideoStream(codec: .h265)
         _ = read(&stream, [0,0,0,1, 0x42, 0x01, 0xBB, 0,0,0,1, 0x44, 0x01, 0xCC])

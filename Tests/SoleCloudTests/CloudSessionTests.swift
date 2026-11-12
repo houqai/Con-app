@@ -60,6 +60,10 @@ final class CloudSessionTests: XCTestCase {
                 XCTAssertEqual(spec["streamServerAuthCode"] as? String, "stream-code")
                 XCTAssertEqual(spec["entitlementId"] as? String, "UP0001-PPSA00001_00-GAME000000000000")
                 XCTAssertEqual(spec["protocolVersion"] as? Int, 12)
+                XCTAssertEqual(spec["model"] as? String, "WINDOWS")
+                XCTAssertEqual(spec["platform"] as? String, "PC")
+                XCTAssertEqual(spec["httpUserAgent"] as? String, PSPlusPCService.userAgent)
+                XCTAssertNotEqual(request.value(forHTTPHeaderField: "User-Agent"), CloudSessionService.portalUserAgent)
                 XCTAssertEqual(spec["isPlusMember"] as? Bool, false)
                 XCTAssertEqual(spec["parentalLevel"] as? Int, 0)
                 XCTAssertNil(body["gkCloudAuthCode"])
@@ -187,6 +191,7 @@ final class CloudSessionTests: XCTestCase {
     private final class LockAnswers: @unchecked Sendable {
         var answers: [(Int, String)]
         var locks: [String] = []
+        var events: [String: String] = [:]
         init(_ answers: [(Int, String)]) { self.answers = answers }
     }
     private func lockedService(_ answers: LockAnswers) async throws -> CloudSessionService {
@@ -199,7 +204,9 @@ final class CloudSessionTests: XCTestCase {
             case "/v1/sessions/session-1/lock":
                 answers.locks.append(request.url!.query ?? "")
                 let (status, body) = answers.answers.count > 1 ? answers.answers.removeFirst() : answers.answers[0]
-                return (status, ["X-Gaikai-Session": "rotated-secret-key", "Retry-After": "3"], Data(body.utf8))
+                var headers = ["X-Gaikai-Session": "rotated-secret-key", "Retry-After": "3"]
+                if let event = answers.events[request.url!.query ?? ""] { headers["X-Gaikai-Event"] = event }
+                return (status, headers, Data(body.utf8))
             default: XCTFail("Unexpected endpoint"); return (404, [:], Data())
             }
         }
@@ -246,6 +253,17 @@ final class CloudSessionTests: XCTestCase {
         try await Task.sleep(nanoseconds: 100_000_000)
         waiting.cancel()
         do { try await waiting.value; XCTFail("A cancelled start does not continue") } catch is CancellationError {}
+    }
+    func testANotAuthorizedLockIsNeitherRepeatedNorForcedAndKeepsSonysEvent() async throws {
+        let refusal = #"{"componentCode":"002","errors":[{"description":"Not authorized","eventCode":"002.0011"}],"httpCode":401}"#
+        let answers = LockAnswers([(401, refusal)])
+        answers.events["forceLogout=false"] = #"{"eventCode":"002.0011","name":"forceLogoutRequested"}"#
+        let client = try await lockedService(answers)
+        do { try await CloudSessionService.acquireLock(client, forceLogout: false); XCTFail("Refused") }
+        catch CloudProtocol.Failure.serviceCode(401, _, "002.0011", "Not authorized") {}
+        XCTAssertEqual(answers.locks, ["forceLogout=false"])
+        let trace = await client.lockTrace
+        XCTAssertEqual(((trace.first?["event"] as? [String: Any])?["fields"] as? [String: [String: Any]])?["name"]?["value"] as? String, "forceLogoutRequested")
     }
     func testAnOrdinaryLockIsNeverRepeatedNorForced() async throws {
         let answers = LockAnswers([(200, #"{"lockAcquired":false}"#)])

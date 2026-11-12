@@ -27,6 +27,20 @@ public enum Library {
         return Game(id: id, title: title.name, platform: title.backend.console, favorite: favorites.contains(id), artworkURL: title.artworkURL,
                     productID: title.productID, cloudBackend: title.backend)
     }
+    public static func ownedStreamed(_ titles: [CloudEntitlementService.OwnedTitle], favorites: Set<String>) -> [Game] {
+        titles.compactMap { title in
+            guard PSPlusPCService.supportedProductID(title.productID), let name = title.name, !name.isEmpty else { return nil }
+            let ps4 = title.productID.contains("-CUSA")
+            let id = "pc:" + title.productID
+            return Game(id: id, title: name, platform: ps4 ? "PS4" : "PS3", favorite: favorites.contains(id), artworkURL: nil,
+                        conceptID: title.conceptID, productID: title.productID, cloudBackend: ps4 ? .psPlusPC : .ps3)
+        }
+    }
+    public static func withOwned(_ catalog: [Game], titles: [CloudEntitlementService.OwnedTitle], favorites: Set<String>) -> [Game] {
+        let extra = ownedStreamed(titles, favorites: favorites).filter { game in !catalog.contains { $0.productID == game.productID && $0.cloudBackend == game.cloudBackend } }
+        guard !extra.isEmpty else { return catalog }
+        return (catalog + extra).sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
+    }
     public static func catalog(_ catalog: [Game], replacingStreamed titles: [PSPlusPCService.Title], favorites: Set<String>) -> [Game] {
         (catalog.filter { $0.cloudBackend == .ps5 } + titles.map { game($0, favorites: favorites) })
             .sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
@@ -116,6 +130,18 @@ public enum Library {
 public enum CatalogRegion {
     public static var choices: [(String, String)] {
         [("en-us", loc("United States")), ("en-gb", loc("United Kingdom")), ("de-de", loc("Germany")), ("fr-fr", loc("France")), ("ja-jp", loc("Japan")), ("es-es", loc("Spain")), ("it-it", loc("Italy")), ("pl-pl", loc("Poland"))]
+    }
+    private static let ownCatalogs = ["US": "en-us", "GB": "en-gb", "IE": "en-gb", "DE": "de-de", "AT": "de-de", "CH": "de-de", "FR": "fr-fr", "BE": "fr-fr", "LU": "fr-fr",
+                                      "JP": "ja-jp", "ES": "es-es", "IT": "it-it", "PL": "pl-pl"]
+    private static let americas: Set<String> = ["CA", "MX", "BR", "AR", "CL", "CO", "PE", "EC", "UY", "PY", "BO", "CR", "PA", "GT", "HN", "SV", "NI", "DO", "VE"]
+    private static let europeanStore: Set<String> = ["NL", "PT", "SE", "NO", "DK", "FI", "IS", "CZ", "SK", "HU", "RO", "BG", "HR", "SI", "GR", "CY", "MT", "TR", "IL", "UA",
+                                                     "LT", "LV", "EE", "RS", "ZA", "AE", "SA", "KW", "QA", "BH", "OM", "LB", "IN", "AU", "NZ"]
+    public static func locale(forCountry country: String?) -> String? {
+        guard let country = country.flatMap(PSNIdentity.normalizedCountry) else { return nil }
+        if let own = ownCatalogs[country] { return own }
+        if americas.contains(country) { return "en-us" }
+        if europeanStore.contains(country) { return "en-gb" }
+        return nil
     }
 }
 

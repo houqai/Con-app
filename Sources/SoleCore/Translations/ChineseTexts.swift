@@ -453,5 +453,6 @@ extension Translations {
         "Reports a lower latency to Sony so that a server further than 80 ms is accepted. This breaks Sony's rules: at your own risk": "向 Sony 报告更低的延迟，使其接受超过 80 ms 的服务器。这违反 Sony 的规则：风险自负",
         "The server is %@ ms away, and Sony accepts up to %@ ms. To play anyway, turn on Distant servers in the stream settings.": "服务器延迟为 %@ ms，而 Sony 只接受 %@ ms 以内。若仍要游玩，请在串流设置中打开“远距离服务器”。",
         "%@: HTTP %@, Sony code %@: %@.": "%@：HTTP %@，Sony 代码 %@：%@。",
+        "Sony does not offer PS Plus PC in your account's country, so it has no PS4 cloud games for this account.": "Sony 未在你的账户所在国家/地区提供 PS Plus PC，因此此账户没有 PS4 云游戏。",
     ]
 }

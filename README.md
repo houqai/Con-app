@@ -14,13 +14,13 @@ with a DualSense, another gamepad or a keyboard and mouse.
 
 <br>
 
-<a href="https://github.com/houqai/Con-app/releases/download/v0.5.1/Con-0.5.1-macos.dmg"><img alt="Download for macOS" src="https://img.shields.io/badge/macOS-Download-111111?style=for-the-badge&logo=apple&logoColor=white" height="38"></a>
+<a href="https://github.com/houqai/Con-app/releases/download/v0.5.2/Con-0.5.2-macos.dmg"><img alt="Download for macOS" src="https://img.shields.io/badge/macOS-Download-111111?style=for-the-badge&logo=apple&logoColor=white" height="38"></a>
 &nbsp;
-<a href="https://github.com/houqai/Con-app/releases/download/v0.5.1/Con-0.5.1-windows-x64.zip"><img alt="Download for Windows" src="https://img.shields.io/badge/Windows-Download-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIgNC42IDEwIDMuNXY4SDJ6bTkuMi0xLjNMMjIgMS44djkuN0gxMS4yek0yIDEyLjVoOHY4TDIgMTkuNHptOS4yIDBIMjJ2OS43bC0xMC44LTEuNXoiLz48L3N2Zz4=" height="38"></a>
+<a href="https://github.com/houqai/Con-app/releases/download/v0.5.2/Con-0.5.2-windows-x64.zip"><img alt="Download for Windows" src="https://img.shields.io/badge/Windows-Download-0078D4?style=for-the-badge&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTIgNC42IDEwIDMuNXY4SDJ6bTkuMi0xLjNMMjIgMS44djkuN0gxMS4yek0yIDEyLjVoOHY4TDIgMTkuNHptOS4yIDBIMjJ2OS43bC0xMC44LTEuNXoiLz48L3N2Zz4=" height="38"></a>
 &nbsp;
-<a href="https://github.com/houqai/Con-app/releases/download/v0.5.1/Con-0.5.1-android.apk"><img alt="Download for Android" src="https://img.shields.io/badge/Android-Download-34A853?style=for-the-badge&logo=android&logoColor=white" height="38"></a>
+<a href="https://github.com/houqai/Con-app/releases/download/v0.5.2/Con-0.5.2-android.apk"><img alt="Download for Android" src="https://img.shields.io/badge/Android-Download-34A853?style=for-the-badge&logo=android&logoColor=white" height="38"></a>
 
-<sub>Version 0.5.1 · <a href="https://github.com/houqai/Con-app/releases">all versions</a></sub>
+<sub>Version 0.5.2 · <a href="https://github.com/houqai/Con-app/releases">all versions</a></sub>
 
 <br><br>
 
@@ -28,13 +28,15 @@ with a DualSense, another gamepad or a keyboard and mouse.
 
 </div>
 
-## What's new in 0.5.1
+## What's new in 0.5.2
 
-The source is open now (GPL-3.0).
+PS5 cloud games start again. At the end of October Sony began refusing them with error 002.0011; Con now asks for the session the way Sony's own PC app does.
 
-One thing changed because of that. Sony only lets you play on a server that's less than 80 ms away. Con used to quietly tell Sony a lower number when your nearest server was further than that. It's against Sony's rules, so now it's a setting you turn on yourself: **Distant servers**, in the stream settings. It's off by default.
+Also new:
 
-So if a game won't start and Con says the server is too far, turn on Distant servers.
+- The catalogue follows the country of your account, so a European account finds its games. You can still pick another region in the settings.
+- A game from your plan's catalogue starts even if you never added it to your library.
+- If Sony does not offer PS Plus on PC in your country, Con says so instead of a vague error.
 
 ## Get started
 
@@ -67,9 +69,9 @@ The streaming engine is written from scratch from a protocol description, which 
 
 | System | Files | Runs on |
 |---|---|---|
-| **macOS** | [Disk image](https://github.com/houqai/Con-app/releases/download/v0.5.1/Con-0.5.1-macos.dmg) | macOS 26 or newer, Apple Silicon |
-| **Windows** | [Archive](https://github.com/houqai/Con-app/releases/download/v0.5.1/Con-0.5.1-windows-x64.zip) | Windows 10 and 11, 64-bit |
-| **Android** | [APK](https://github.com/houqai/Con-app/releases/download/v0.5.1/Con-0.5.1-android.apk) | Android 9 or newer, 64-bit ARM |
+| **macOS** | [Disk image](https://github.com/houqai/Con-app/releases/download/v0.5.2/Con-0.5.2-macos.dmg) | macOS 26 or newer, Apple Silicon |
+| **Windows** | [Archive](https://github.com/houqai/Con-app/releases/download/v0.5.2/Con-0.5.2-windows-x64.zip) | Windows 10 and 11, 64-bit |
+| **Android** | [APK](https://github.com/houqai/Con-app/releases/download/v0.5.2/Con-0.5.2-android.apk) | Android 9 or newer, 64-bit ARM |
 
 A Linux version exists, but it is not part of this release yet: it still has to be tested on SteamOS.
 
@@ -87,7 +89,7 @@ Download the APK on the phone and open it. Android asks to allow installing apps
 
 ### Checksums
 
-SHA-256 of every file is in [SHA256SUMS.txt](https://github.com/houqai/Con-app/releases/download/v0.5.1/SHA256SUMS.txt) of the release.
+SHA-256 of every file is in [SHA256SUMS.txt](https://github.com/houqai/Con-app/releases/download/v0.5.2/SHA256SUMS.txt) of the release.
 
 ## Privacy
 

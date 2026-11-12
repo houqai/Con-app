@@ -26,10 +26,10 @@ public actor PSPlusPCService {
     private var baseURL: URL?
     private var screenshotCache: [String: [URL]] = [:]
     private static let pcClientID = SonyClients.catalog
-    public init() {
+    public init(session: URLSession? = nil) {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpCookieStorage = nil; configuration.urlCache = nil; configuration.timeoutIntervalForRequest = 25
-        http = .lasting(configuration, delegate: NoRedirects())
+        http = session ?? .lasting(configuration, delegate: NoRedirects())
     }
     public static func authorizationURL(clientID: String, scope: String, state: String, deviceID: String) throws -> URL {
         guard UUID(uuidString: clientID) != nil, !state.isEmpty, deviceID.count == 48,
@@ -81,14 +81,30 @@ public actor PSPlusPCService {
         let cookies = HTTPCookie.cookies(withResponseHeaderFields: response.allHeaderFields.reduce(into: [String: String]()) { if let key = $1.key as? String { $0[key] = String(describing: $1.value) } }, for: response.url!)
         guard let sessionCookie = cookies.first(where: { $0.name == "JSESSIONID" }), !sessionCookie.value.contains("\r"), !sessionCookie.value.contains("\n") else { throw Failure.invalidResponse }
         session = "JSESSIONID=" + sessionCookie.value
-        let (stores, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/stores")!, cookie: &session)
-        guard let base = (stores["data"] as? [String: Any])?["base_url"] as? String, let store = Self.storeURL(base) else { throw Failure.unsupportedRegion }
+        let store: URL
+        do {
+            let (stores, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/stores")!, cookie: &session)
+            guard let base = (stores["data"] as? [String: Any])?["base_url"] as? String, let accountStore = Self.storeURL(base) else { throw Failure.unsupportedRegion }
+            store = accountStore
+        } catch Failure.service(404) {
+            store = Self.fallbackStore
+        }
+        let result = try await titles(in: store, cookie: &session)
+        cookie = session; baseURL = store; cachedTitles = result; cachedAt = Date(); credentialHash = hash
+        record(["step": "catalog", "count": result.count])
+        return result
+    }
+    static let fallbackStore = URL(string: "https://psnow.playstation.com/store/api/pcnow/00_09_000/container/GB/en/19/STORE-MSF192014-APOLLOROOT")!
+    private static let letterBuckets = ["A - B", "C - D", "E - G", "H - L", "M - O", "P - R", "S", "T", "U - Z"]
+    private func titles(in store: URL, cookie session: inout String?) async throws -> [Title] {
         let (root, _) = try await request(Self.paged(store, start: 0, size: 100), cookie: &session)
-        let categories = (root["links"] as? [[String: Any]] ?? []).filter { ["A - B", "C - D", "E - G", "H - L", "M - O", "P - R", "S", "T", "U - Z"].contains($0["name"] as? String ?? "") }
+        let links = root["links"] as? [[String: Any]] ?? []
+        let buckets = links.filter { Self.letterBuckets.contains($0["name"] as? String ?? "") }
+        let categories = buckets.isEmpty ? links.filter { ($0["container_type"] as? String) != "product" } : buckets
         guard !categories.isEmpty else { throw Failure.invalidResponse }
         var result: [Title] = []; var seen = Set<String>()
         for category in categories {
-            guard let text = category["url"] as? String, let url = Self.storeURL(text) else { throw Failure.invalidResponse }
+            guard let text = category["url"] as? String, let url = Self.storeURL(text) else { continue }
             for page in 0..<20 {
                 let (object, _) = try await request(Self.paged(url, start: page * 500, size: 500), cookie: &session)
                 let rows = object["links"] as? [[String: Any]] ?? []
@@ -100,11 +116,10 @@ public actor PSPlusPCService {
                 if page == 19 { throw Failure.invalidResponse }
             }
         }
-        cookie = session; baseURL = store; cachedTitles = result; cachedAt = Date(); credentialHash = hash
-        record(["step": "catalog", "count": result.count])
+        guard !result.isEmpty else { throw Failure.unsupportedRegion }
         return result
     }
-    static func supportedProductID(_ id: String) -> Bool {
+    public static func supportedProductID(_ id: String) -> Bool {
         guard CloudEntitlementService.validID(id), let title = titlePrefix(id) else { return false }
         return ["CUSA", "NPUB", "NPEB", "NPJB", "NPHB", "BLUS", "BLES", "BLJS", "BCUS", "BCES", "BCJS"].contains { title.hasPrefix($0) }
     }
@@ -185,12 +200,30 @@ public actor PSPlusPCService {
             return
         }
         guard licenseResponse.statusCode == 404, let sku = streamingSKU, CloudEntitlementService.validID(sku) else { throw Failure.service(licenseResponse.statusCode) }
-        let (preview, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/checkout/buynow/preview")!, body: "sku=" + sku, bearer: token)
+        let (preview, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/checkout/buynow/preview")!, body: "sku=" + sku, bearer: token, form: true)
         guard let approvedSKU = Self.freeStreamingSKU(preview, expectedSKU: sku) else { throw Failure.notFree }
         record(["step": "free-streaming-license", "price": 0])
         try Task.checkCancellation()
-        let (acquired, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/checkout/buynow")!, body: "sku=" + approvedSKU + "&skipEmail=true", bearer: token)
+        let (acquired, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/checkout/buynow")!, body: "sku=" + approvedSKU + "&skipEmail=true", bearer: token, form: true)
         guard (acquired["header"] as? [String: Any])?["status_code"] as? String == "0x0000" else { throw Failure.activationFailed }
+    }
+    public func acquireFreeCatalogLicense(productID: String, sso: String, deviceID: String) async {
+        guard CloudEntitlementService.validID(productID), SonySSO.validValue(sso) else { return }
+        if cookie == nil { _ = try? await catalog(sso: sso, deviceID: deviceID) }
+        guard cookie != nil else { return }
+        for sku in Self.catalogSKUCandidates(productID) {
+            do {
+                let (preview, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/checkout/buynow/preview")!, body: "sku=" + sku, form: true)
+                guard let approved = Self.freeStreamingSKU(preview, expectedSKU: sku) else { continue }
+                let (acquired, _) = try await request(URL(string: "https://psnow.playstation.com/kamaji/api/pcnow/00_09_000/user/checkout/buynow")!, body: "sku=" + approved + "&skipEmail=true", form: true)
+                if (acquired["header"] as? [String: Any])?["status_code"] as? String == "0x0000" { return }
+            } catch {
+                continue
+            }
+        }
+    }
+    static func catalogSKUCandidates(_ id: String) -> [String] {
+        [id + "-U001", id + "-U002", id].filter(CloudEntitlementService.validID)
     }
     static func freeStreamingSKU(_ preview: [String: Any], expectedSKU: String) -> String? {
         guard (preview["header"] as? [String: Any])?["status_code"] as? String == "0x0000",
@@ -229,13 +262,13 @@ public actor PSPlusPCService {
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         try? data.write(to: directory.appendingPathComponent("pc-catalog.json"), options: .atomic)
     }
-    private func request(_ url: URL, body: String? = nil, bearer: String? = nil) async throws -> ([String: Any], HTTPURLResponse) {
+    private func request(_ url: URL, body: String? = nil, bearer: String? = nil, form: Bool = false) async throws -> ([String: Any], HTTPURLResponse) {
         let sent = cookie
         var session = sent
         defer { if session != sent, cookie == sent { cookie = session } }
-        return try await request(url, body: body, bearer: bearer, cookie: &session)
+        return try await request(url, body: body, bearer: bearer, form: form, cookie: &session)
     }
-    private func request(_ url: URL, body: String? = nil, bearer: String? = nil, cookie session: inout String?) async throws -> ([String: Any], HTTPURLResponse) {
+    private func request(_ url: URL, body: String? = nil, bearer: String? = nil, form: Bool = false, cookie session: inout String?) async throws -> ([String: Any], HTTPURLResponse) {
         try Task.checkCancellation()
         var request = URLRequest(url: url)
         request.setValue(Self.userAgent, forHTTPHeaderField: "User-Agent")
@@ -250,7 +283,7 @@ public actor PSPlusPCService {
         if let body {
             request.httpMethod = "POST"
             request.httpBody = Data(body.utf8)
-            request.setValue(bearer == nil ? "text/plain;charset=UTF-8" : "application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.setValue(bearer == nil && !form ? "text/plain;charset=UTF-8" : "application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             request.setValue(Self.redirect, forHTTPHeaderField: "X-Alt-Referer")
         }
         let (data, response) = try await http.plainData(for: request)

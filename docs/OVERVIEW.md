@@ -1,4 +1,4 @@
-# Con 0.5.1
+# Con 0.5.2
 
 A native PlayStation client for macOS: PS Plus cloud games (PS5, PS4 "PS Now", PS3) and Remote Play with your own console. The interface is SwiftUI, the stream is received by Con's own engine in Rust (`Engine/`), and everything else is Con's own Swift code.
 

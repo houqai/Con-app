@@ -451,3 +451,4 @@
 450|Informa à Sony uma latência menor para que um servidor acima de 80 ms seja aceito. Isso viola as regras da Sony: por sua conta e risco
 451|O servidor está a %@ ms, e a Sony aceita até %@ ms. Para jogar mesmo assim, ative “Servidores distantes” nas configurações de streaming.
 452|%@: HTTP %@, código da Sony %@: %@.
+453|A Sony não oferece o PS Plus PC no país da sua conta, então não há jogos de PS4 na nuvem para esta conta.

@@ -453,5 +453,6 @@ extension Translations {
         "Reports a lower latency to Sony so that a server further than 80 ms is accepted. This breaks Sony's rules: at your own risk": "Meldet Sony eine geringere Latenz, damit ein Server über 80 ms angenommen wird. Das verstößt gegen Sonys Regeln: auf eigenes Risiko",
         "The server is %@ ms away, and Sony accepts up to %@ ms. To play anyway, turn on Distant servers in the stream settings.": "Der Server ist %@ ms entfernt, Sony nimmt bis %@ ms an. Um trotzdem zu spielen, aktiviere „Entfernte Server“ in den Stream-Einstellungen.",
         "%@: HTTP %@, Sony code %@: %@.": "%@: HTTP %@, Sony-Code %@: %@.",
+        "Sony does not offer PS Plus PC in your account's country, so it has no PS4 cloud games for this account.": "Sony bietet PS Plus PC im Land deines Kontos nicht an, daher gibt es für dieses Konto keine PS4-Cloud-Spiele.",
     ]
 }
